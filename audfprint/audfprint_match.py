@@ -14,8 +14,9 @@ import time
 # import resource # not working in windows
 # for localtest and illustrate
 import audfprint_analyze
+import matplotlib 
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
 import audio_read
 
 from scipy import stats
