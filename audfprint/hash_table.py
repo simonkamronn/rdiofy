@@ -94,13 +94,13 @@ class HashTable(object):
         #sortedpairs[:,1] = sortedpairs[:,1] & hashmask
         idval = id_ << self.maxtimebits
         for time_, hash_ in sortedpairs:
-            # How many already stored for this hash?
-            count = self.counts[hash_]
             # Keep only the bottom part of the time value
             #time_ %= mxtime
             time_ &= timemask
             # Keep only the bottom part of the hash value
             hash_ &= hashmask
+            # How many already stored for this hash?
+            count = self.counts[hash_]
             # Mixin with ID
             val = (idval + time_) #.astype(np.uint32)
             if count < self.depth:

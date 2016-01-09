@@ -5,13 +5,14 @@ import docopt
 
 USAGE = afp.USAGE
 argv = ['new',
-        '--verbose', '0',
+        '--verbose', '1',
         "--density", "70",
-        "--fanout", "8",
-        "--bucketsize", "300",
+        "--fanout", "5",
+        "--bucketsize", "40",
         "--ncores", "1",
-        "--search-depth", "500",
-        "--min-count", "5"]
+        "--search-depth", "50",
+        "--min-count", "5",
+        "--hashbits", "20"]
 args = docopt.docopt(USAGE, version=1, argv=argv)
 
 # TODO Strip out matplotlib and librosa from audfprint. No use on the server and takes up space
@@ -55,8 +56,8 @@ class Connector:
 
     def new_hashtable(self):
         hash_tab = hash_table.HashTable(
-                hashbits=20,
-                depth=100,
-                maxtime=16384)
+                hashbits=int(args['--hashbits']),
+                depth=int(args['--bucketsize']),
+                maxtime=4096)
         return hash_tab
 

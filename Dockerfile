@@ -38,6 +38,7 @@ RUN ln -s /usr/bin/avconv /usr/local/bin/ffmpeg
 
 COPY ./ /opt/rdiofy/
 WORKDIR /opt/rdiofy/
+RUN mkdir new_recordings
 RUN mv .aws /root/
 
 EXPOSE 5000
