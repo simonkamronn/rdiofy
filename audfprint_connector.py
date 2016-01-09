@@ -7,10 +7,10 @@ USAGE = afp.USAGE
 argv = ['new',
         '--verbose', '1',
         "--density", "70",
-        "--fanout", "5",
-        "--bucketsize", "40",
+        "--fanout", "8",
+        "--bucketsize", "100",
         "--ncores", "1",
-        "--search-depth", "50",
+        "--search-depth", "100",
         "--min-count", "5",
         "--hashbits", "20"]
 args = docopt.docopt(USAGE, version=1, argv=argv)
@@ -39,6 +39,7 @@ class Connector:
         result, durd, num_hashes = self.matcher.match_file(self.match_analyzer, self.hash_tab, audio_file)
 
         if len(result) > 0:
+            print(result)
             tophitid, nhashaligned, aligntime, nhashraw, rank, min_time, max_time = result[0]
             match_station = self.hash_tab.names[tophitid]
             return match_station, nhashaligned
