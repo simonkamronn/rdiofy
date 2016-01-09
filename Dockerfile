@@ -32,14 +32,16 @@ RUN pip install -v   \
   flask              \
   boto3              \
   flask_apscheduler
+
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
 RUN ln -s /usr/bin/avconv /usr/local/bin/ffmpeg
 
 COPY ./ /opt/rdiofy/
+WORKDIR /opt/rdiofy/
+RUN mv .aws /root/
 
 EXPOSE 5000
 
-WORKDIR /opt/rdiofy/
 CMD python app.py
 
 ####

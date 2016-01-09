@@ -1,7 +1,6 @@
 from flask import Flask, request
 from audfprint_connector import Connector
 from datetime import datetime
-from glob import glob
 import logging
 from flask_apscheduler import APScheduler
 from recording import radiorec
@@ -47,7 +46,7 @@ class Config(object):
             'func': '__main__:reset_hashtable',
             'args': (afp, ),
             'trigger': 'interval',
-            'minutes': 10
+            'hours': 24
         }
     ]
     SCHEDULER_JOB_DEFAULTS = {
@@ -63,14 +62,6 @@ class Config(object):
 app = Flask(__name__)
 app.config.from_object(Config())
 app.logger.setLevel(logging.INFO)  # use the native logger of flask
-
-
-def init_audio(afp):
-    for audio in glob('music/Ghost Reveries/*.mp3'):
-        nhash = afp.ingest(audio)
-        if nhash > 0:
-            app.logger.info('Ingested %d hashes from %s' % (nhash, audio))
-# init_audio(afp)
 
 
 @app.route('/match/', methods=['POST'])
@@ -93,7 +84,7 @@ def station_match():
     if nhash > 0:
         table.put_item(Item=dict(match_id=match,
                                  user_id=user_id,
-                                 hash_count=nhash,
+                                 hash_count=int(nhash),
                                  recording_time=recording_time,
                                  timestamp=datetime.now().strftime(dt_format)))
 

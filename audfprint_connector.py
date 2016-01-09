@@ -4,7 +4,14 @@ import docopt
 
 
 USAGE = afp.USAGE
-argv = ['new', '--verbose', '0']
+argv = ['new',
+        '--verbose', '0',
+        "--density", "70",
+        "--fanout", "8",
+        "--bucketsize", "500",
+        "--ncores", "1",
+        "--search-depth", "2000",
+        "--min-count", "3"]
 args = docopt.docopt(USAGE, version=1, argv=argv)
 
 
