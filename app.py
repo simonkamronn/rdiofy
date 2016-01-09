@@ -1,11 +1,12 @@
 from flask import Flask, request
+import os
 from audfprint_connector import Connector
 from datetime import datetime
 import logging
 from flask_apscheduler import APScheduler
 from recording import radiorec
 import boto3
-tmp_path = 'tmp_audio.mp3'
+tmp_path = 'tmp_audio'
 dt_format = '%Y-%m-%d %H:%M:%S'
 
 # Initialize logging for APScheduler
@@ -46,7 +47,7 @@ class Config(object):
             'func': '__main__:reset_hashtable',
             'args': (afp, ),
             'trigger': 'interval',
-            'hours': 24
+            'minutes': 10
         }
     ]
     SCHEDULER_JOB_DEFAULTS = {
@@ -69,15 +70,17 @@ def station_match():
     app.logger.info('Got a new match request')
     recording_time = request.form.get('recording_time', '')
     user_id = request.form.get('user_id', '')
+    file_type = request.form.get('file_type', 'wav')
     if recording_time is not '':
         app.logger.info("Recording time: %s" % recording_time)
 
     # Save file to disk
     # TODO load file directly instead of saving to disk
-    request.files.get('audio_file').save(tmp_path)
+    tmp_file = 'tmp_audio' + '.' + file_type
+    request.files.get('audio_file').save(tmp_file)
 
     # Match the file
-    match, nhash = afp.match(tmp_path)
+    match, nhash = afp.match(tmp_file)
     app.logger.info("Match: %s, hashes: %d" % (match, nhash))
 
     # Commit match to database
@@ -87,6 +90,12 @@ def station_match():
                                  hash_count=int(nhash),
                                  recording_time=recording_time,
                                  timestamp=datetime.now().strftime(dt_format)))
+
+    # Remove tmp file
+    try:
+        os.remove(tmp_file)
+    except IOError, e:
+        print(e)
 
     return match if match is not None else ('', 204)
 
