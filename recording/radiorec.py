@@ -8,7 +8,7 @@ SAMPLE_RATE = 44100
 CHUNK_SIZE = 1024
 
 ARGS = {'url': 'http://live-icy.gss.dr.dk/A/A05H.mp3',
-        'duration': 60,
+        'duration': 40,
         'station': 'DR P3',
         'name': None,
         'target_dir': 'new_recordings',
@@ -45,7 +45,7 @@ class RadioRecorder:
                     target.write(r.raw.read(CHUNK_SIZE))
 
         # Ingest file in database
-        ingest(filename, self.station)
+        nhash = ingest(filename, self.station)
 
         try:
             os.remove(filename)
@@ -55,7 +55,7 @@ class RadioRecorder:
             print(e)
 
     def remove_files(self):
-        for mp3_file in glob.glob(self.target_dir + '/*.mp3')[:-1]:
+        for mp3_file in glob.glob(self.target_dir + '/*.mp3')[:-2]:
             try:
                 os.remove(mp3_file)
             except WindowsError:

@@ -23,12 +23,16 @@ class Connector:
         self.args = args
         self.verbose = False
         self.reporter = afp.setup_reporter(self.args)
+        # Setup analyzer
         self.args.shifts = 1
         self.analyzer = afp.setup_analyzer(self.args)
-        self.matcher = afp.setup_matcher(self.args)
+        self.analyzer.fail_on_error = False
+        # Setup matcher
         self.args.shifts = 4
         self.match_analyzer = afp.setup_analyzer(self.args)
-        self.ncores = 1
+        self.matcher = afp.setup_matcher(self.args)
+
+        self.ncores = 1  # Not very CPU intensitive at this point
         self.hash_tab = self.new_hashtable()  # We should keep an array of tables
 
     def match(self, audio_file):
