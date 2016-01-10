@@ -18,7 +18,8 @@ RUN apt-get --force-yes -y install \
   python-setuptools  \
   python-pip         \
   libfreetype6-dev   \
-  libpng-dev
+  libpng-dev         \
+  git
 
 RUN pip install -v   \
   matplotlib         \
@@ -35,6 +36,10 @@ RUN pip install -v   \
 
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
 RUN ln -s /usr/bin/avconv /usr/local/bin/ffmpeg
+
+RUN git clone https://github.com/Skamronn/audioread.git
+WORKDIR /root/audioread
+RUN python setup.py install
 
 COPY ./ /opt/rdiofy/
 WORKDIR /opt/rdiofy/

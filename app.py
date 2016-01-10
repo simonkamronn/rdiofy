@@ -1,12 +1,11 @@
 from flask import Flask, request
-import os
 from audfprint_connector import Connector
 from datetime import datetime
 import logging
 from flask_apscheduler import APScheduler
 from recording import radiorec
 import boto3
-tmp_path = 'tmp_audio'
+import time
 dt_format = '%Y-%m-%d %H:%M:%S'
 
 # Initialize logging for APScheduler
@@ -21,12 +20,16 @@ radiorec_args = radiorec.ARGS
 radiorec_args['duration'] = 60  # Seconds
 radiorec_args['dt_format'] = dt_format
 radiorec_args['ingest'] = afp.ingest
-radiorec_args['url'] = 'http://live-icy.gss.dr.dk/A/A08H.mp3.m3u'
+radiorec_args['url'] = 'http://live-icy.gss.dr.dk/A/A08L.mp3'
 radiorec_args['station'] = "P4_Kobenhavn"
 
 # Create recorder object
 recorder = radiorec.RadioRecorder(args=radiorec_args)
-record = recorder.record
+
+
+def record(ingest):
+    if not recorder.recording:
+        recorder.record_stream(ingest)
 
 # DynamoDB resources
 dynamodb = boto3.resource('dynamodb', region_name='eu-central-1', endpoint_url="https://dynamodb.eu-central-1.amazonaws.com")
@@ -38,16 +41,16 @@ class Config(object):
         {
             'id': 'record',
             'func': '__main__:record',
-            'args': (afp.ingest, ),
+            'args': (afp.ingest_array, ),
             'trigger': 'interval',
-            'seconds': 60
+            'minutes': 5
         },
         {
             'id': 'reset hashtable',
             'func': '__main__:reset_hashtable',
             'args': (afp, ),
             'trigger': 'interval',
-            'minutes': 10
+            'hours': 24
         }
     ]
     SCHEDULER_JOB_DEFAULTS = {
@@ -55,7 +58,7 @@ class Config(object):
         'max_instances': 5
     }
     SCHEDULER_EXECUTORS = {
-        'default': {'type': 'threadpool', 'max_workers': 20}
+        'default': {'type': 'threadpool', 'max_workers': 10}
     }
     SCHEDULER_VIEWS_ENABLED = True
     DEBUG = False
@@ -79,6 +82,9 @@ def station_match():
     tmp_file = 'tmp_audio' + '.' + file_type
     request.files.get('audio_file').save(tmp_file)
 
+    # Wait a second for the file to be saved
+    time.sleep(5)
+
     # Match the file
     match, nhash = afp.match(tmp_file)
     app.logger.info("Match: %s, hashes: %d" % (match, nhash))
@@ -91,11 +97,6 @@ def station_match():
                                  recording_time=recording_time,
                                  timestamp=datetime.now().strftime(dt_format)))
 
-    # Remove tmp file
-    try:
-        os.remove(tmp_file)
-    except IOError, e:
-        print(e)
 
     return match if match is not None else ('', 204)
 

@@ -244,6 +244,7 @@ def do_cmd_multiproc(cmd, analyzer, hash_tab, filename_iter, matcher,
         # This is not a multiproc command
         raise ValueError("unrecognized multiproc command: "+cmd)
 
+
 # Command to separate out setting of analyzer parameters
 def setup_analyzer(args):
     """Create a new analyzer object, taking values from docopts args"""
@@ -265,6 +266,7 @@ def setup_analyzer(args):
         analyzer.shifts = 4 if args['match'] else 1
     analyzer.fail_on_error = not args['--continue-on-error']
     return analyzer
+
 
 # Command to separate out setting of matcher parameters
 def setup_matcher(args):
