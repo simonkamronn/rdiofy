@@ -65,6 +65,7 @@ class RadioRecorder:
         :return:
         """
         try:
+            print("Starting recording of %s" % self.station)
             self.recording = True
             with ffdec.FFmpegAudioFile(self.url, block_size=65536) as f:
                 for i, buf in enumerate(f):
@@ -74,6 +75,7 @@ class RadioRecorder:
             print("File could not be decoded")
 
         finally:
+            print("Stopping recording of %s" % self.station)
             self.recording = False
 
     def remove_files(self):
