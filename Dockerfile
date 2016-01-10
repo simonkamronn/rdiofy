@@ -37,9 +37,9 @@ RUN pip install -v   \
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
 RUN ln -s /usr/bin/avconv /usr/local/bin/ffmpeg
 
-RUN git clone https://github.com/Skamronn/audioread.git
-WORKDIR /root/audioread
-RUN python setup.py install
+RUN git clone https://github.com/Skamronn/audioread.git /opt/audioread \
+		&& cd /opt/audioread \
+		&& python setup.py install
 
 COPY ./ /opt/rdiofy/
 WORKDIR /opt/rdiofy/
