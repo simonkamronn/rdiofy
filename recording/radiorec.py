@@ -10,8 +10,8 @@ import numpy as np
 SAMPLE_RATE = 44100
 CHUNK_SIZE = 1024
 
-ARGS = {'url': 'http://live-icy.gss.dr.dk/A/A05H.mp3',
-        'duration': 40,
+ARGS = {'url': 'http://live-icy.gss.dr.dk/A/A05H.mp3',  # DR P3
+        'duration': 40,  # Seconds
         'station': 'DR P3',
         'name': None,
         'target_dir': 'new_recordings',
@@ -58,24 +58,25 @@ class RadioRecorder:
         except IOError, e:
             print(e)
 
-    def record_stream(self, ingest):
+    def record_stream(self, ingest, logger):
         """
         Start decoding from the URL and ingesting
+        :param logger: logging output
         :param ingest: ingest_array from the connector
         :return:
         """
         try:
-            print("Starting recording of %s" % self.station)
+            logger("Starting recording of %s" % self.station)
             self.recording = True
             with ffdec.FFmpegAudioFile(self.url, block_size=65536) as f:
                 for i, buf in enumerate(f):
                     ingest(np.frombuffer(buf, np.int16).astype(np.float32), self.station)
 
         except audioread.DecodeError:
-            print("File could not be decoded")
+            logger("File could not be decoded")
 
         finally:
-            print("Stopping recording of %s" % self.station)
+            logger("Stopping recording of %s" % self.station)
             self.recording = False
 
     def remove_files(self):
@@ -87,6 +88,3 @@ class RadioRecorder:
             except IOError, e:
                 print(e)
 
-
-if __name__ == "__main__":
-    RadioRecorder(args=ARGS).record()

@@ -13,13 +13,12 @@ logging.basicConfig()
 
 # Create connector to audfprint
 afp = Connector()
-afp.verbose = True
+afp.verbose = False
 
 # Setup radio recording
 radiorec_args = radiorec.ARGS
 radiorec_args['duration'] = 60  # Seconds
 radiorec_args['dt_format'] = dt_format
-radiorec_args['ingest'] = afp.ingest
 radiorec_args['url'] = 'http://live-icy.gss.dr.dk/A/A08L.mp3'
 radiorec_args['station'] = "P4_Kobenhavn"
 
@@ -41,7 +40,7 @@ class Config(object):
         {
             'id': 'record',
             'func': '__main__:record',
-            'args': (afp.ingest_array, ),
+            'args': (afp.ingest_array, app.logger.info),
             'trigger': 'interval',
             'minutes': 5
         },
@@ -96,7 +95,6 @@ def station_match():
                                  hash_count=int(nhash),
                                  recording_time=recording_time,
                                  timestamp=datetime.now().strftime(dt_format)))
-
 
     return match if match is not None else ('', 204)
 

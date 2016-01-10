@@ -5,12 +5,12 @@ import docopt
 
 USAGE = afp.USAGE
 argv = ['new',
-        '--verbose', 'True',
+        '--verbose', '0',
         "--density", "70",
         "--fanout", "8",
         "--bucketsize", "100",
         "--ncores", "1",
-        "--search-depth", "100",
+        "--search-depth", "200",
         "--min-count", "5",
         "--hashbits", "20",
         '--continue-on-error', 'True']
@@ -22,7 +22,7 @@ args = docopt.docopt(USAGE, version=1, argv=argv)
 class Connector:
     def __init__(self):
         self.args = args
-        self.verbose = True
+        self.verbose = False
         self.reporter = afp.setup_reporter(self.args)
         # Setup analyzer
         self.args.shifts = 1
