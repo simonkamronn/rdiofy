@@ -62,6 +62,8 @@ class Config(object):
     SCHEDULER_VIEWS_ENABLED = True
     DEBUG = False
 
+# Application setup 
+# TODO move apscheduler config to later so app can be passed as argument
 app = Flask(__name__)
 app.config.from_object(Config())
 app.logger.setLevel(logging.INFO)  # use the native logger of flask

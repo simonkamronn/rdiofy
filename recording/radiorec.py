@@ -6,6 +6,7 @@ from contextlib import closing
 import audioread
 from audioread import ffdec
 import numpy as np
+from multiprocessing import Process, Queue
 
 SAMPLE_RATE = 44100
 CHUNK_SIZE = 1024
@@ -62,7 +63,7 @@ class RadioRecorder:
         """
         Start decoding from the URL and ingesting
         :param logger: logging output
-        :param ingest: ingest_array from the connector
+        :param ingest: multiprocessing queue
         :return:
         """
         try:
