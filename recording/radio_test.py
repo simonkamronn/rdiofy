@@ -1,7 +1,7 @@
 from datetime import datetime
 import requests
 import time
-from audioread import ffdec
+from audfprint.audio_read import FFmpegAudioFile, buf_to_float, audio_read
 import wave
 import contextlib
 import numpy as np
@@ -13,10 +13,10 @@ with contextlib.closing(wave.open('radio_test.wav', 'w')) as of:
     of.setframerate(44100)
     of.setnchannels(1)
     of.setsampwidth(2)
-    with ffdec.FFmpegAudioFile(url, block_size=65536) as f:
+    with FFmpegAudioFile(url, channels=1, sample_rate=44100, block_size=65536) as f:
         for idx, buf in enumerate(f):
-            of.writeframes(np.frombuffer(buf, np.int16))
-            if idx > 10: break
+            of.writeframes(buf)
+            if idx > 20: break
 
 # time.sleep(60)
 

@@ -3,7 +3,7 @@ import os
 import glob
 import requests
 from contextlib import closing
-from audfprint.audio_read import FFmpegAudioFile
+from audfprint.audio_read import FFmpegAudioFile, buf_to_float
 import numpy as np
 SAMPLE_RATE = 44100
 CHUNK_SIZE = 1024
@@ -86,6 +86,6 @@ def record_stream(radio_station, queue):
     if url.endswith('m3u'):
         url = m3u_to_url(url)
 
-    with FFmpegAudioFile(url, block_size=65536*10) as f:
+    with FFmpegAudioFile(url, channels=1, sample_rate=44100, block_size=65536*10) as f:
         for buf in f:
-            queue.put(('ingest', (np.frombuffer(buf, np.int16).astype(np.float32), station)))
+            queue.put(('ingest', (np.ascontiguousarray(buf_to_float(buf, dtype=np.float32), dtype=np.float32), station)))

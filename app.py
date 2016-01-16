@@ -46,13 +46,9 @@ def consumer(task_queue, result_queue):
         if 'ingest' in task:
             array, station = data
 
-            # Calculate hashes
-            hashes = afp.fingerprint_array(array)
-
             # Ingest into table
             cur_dt = datetime.now().strftime(dt_format)
-            afp.hash_tab.store(station + '.' + cur_dt, hashes)
-            app.logger.info("Station: %s, hashes: %d" % (station + '.' + cur_dt, len(hashes)))
+            afp.ingest_array(array, station + '.' + cur_dt)
 
 
 def keep_recording(queue, stations):
@@ -91,7 +87,7 @@ def station_match():
     request.files.get('audio_file').save(tmp_file)
 
     # Wait a second for the file to be saved
-    time.sleep(5)
+    time.sleep(1)
 
     # Pass task to task queue
     task_queue.put(('match', tmp_file))
