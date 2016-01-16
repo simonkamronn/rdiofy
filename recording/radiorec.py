@@ -86,6 +86,13 @@ def record_stream(radio_station, queue):
     if url.endswith('m3u'):
         url = m3u_to_url(url)
 
-    with FFmpegAudioFile(url, channels=1, sample_rate=44100, block_size=65536*10) as f:
+    y = []
+    idx = 0
+    with FFmpegAudioFile(url, channels=1, sample_rate=44100, block_size=65536) as f:
         for buf in f:
-            queue.put(('ingest', (np.ascontiguousarray(buf_to_float(buf, dtype=np.float32), dtype=np.float32), station)))
+            idx += 1
+            y.append(buf_to_float(buf, dtype=np.float32))
+            if idx > 100:
+                queue.put(('ingest', (np.ascontiguousarray(np.concatenate(y), dtype=np.float32), station)))
+                y = []
+                idx = 0

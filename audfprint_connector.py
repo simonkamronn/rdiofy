@@ -28,7 +28,7 @@ class Connector(object):
         self.args.shifts = 1
         self.analyzer = afp.setup_analyzer(self.args)
         # Setup matcher
-        # self.args.shifts = 4
+        self.args.shifts = 4
         self.match_analyzer = afp.setup_analyzer(self.args)
         self.matcher = afp.setup_matcher(self.args)
 
@@ -43,6 +43,7 @@ class Connector(object):
         array, sr = audio_read(audio_file, sr=44100, channels=1)
         hashes = self.fingerprint_array(array)
         result = self.matcher.match_hashes(self.hash_tab, hashes)
+        print(result)
         
         if len(result) > 0:
             tophitid, nhashaligned, aligntime, nhashraw, rank, min_time, max_time = result[0]
@@ -53,7 +54,8 @@ class Connector(object):
 
     def ingest_array(self, array, store_name):
         hashes = self.fingerprint_array(array)
-        print('Ingesting %d hashes from %s' % (len(hashes), store_name))
+        if self.verbose:
+            print('ingested: %s, nhash: %d' % (store_name, len(hashes)))
         self.hash_tab.store(store_name, hashes)
 
     def ingest_file(self, audio_file, store_name):

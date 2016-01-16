@@ -6,9 +6,7 @@ import time
 recording_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 rec = mic_recorder.Recorder(channels=1)
 with rec.open('mic_recording.wav', 'wb') as recfile:
-    recfile.record(duration=30.0)
-
-time.sleep(60)
+    recfile.record(duration=60.0)
 
 url = 'http://localhost:5000/match/'
 # url = 'http://192.168.99.100:8000/match/'

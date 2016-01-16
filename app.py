@@ -1,13 +1,14 @@
 from flask import Flask, request
 from audfprint_connector import Connector
 from datetime import datetime
+import pytz
 import logging
 from recording import radiorec
 import boto3
 import time
 from multiprocessing import Process, Queue
 from numpy import sum
-dt_format = '%Y-%m-%d %H:%M:%S'
+dt_format = '%Y-%m-%d %H:%M'
 
 # Initialize logging for APScheduler
 logging.basicConfig()
@@ -47,7 +48,7 @@ def consumer(task_queue, result_queue):
             array, station = data
 
             # Ingest into table
-            cur_dt = datetime.now().strftime(dt_format)
+            cur_dt = datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)
             afp.ingest_array(array, station + '.' + cur_dt)
 
 
@@ -98,11 +99,13 @@ def station_match():
 
     # Commit match to database
     if nhash > 0:
-        table.put_item(Item=dict(match_id=match,
+        station, match_time = match.split('.')
+        table.put_item(Item=dict(match_id=station,
                                  user_id=user_id,
                                  hash_count=int(nhash),
+                                 match_time=match_time,
                                  recording_time=recording_time,
-                                 timestamp=datetime.now().strftime(dt_format)))
+                                 timestamp=datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)))
 
     return match if match is not None else ('', 204)
 
@@ -118,8 +121,17 @@ def list_hashtable(connector):
 
 if __name__ == '__main__':
     # Setup radio recording
-    radio_stations = [{'name': 'P4_Kobenhavn',
-                       'url': 'http://live-icy.gss.dr.dk/A/A08H.mp3'}]
+    radio_stations = [
+        {'name': 'P1',
+         'url': 'http://live-icy.gss.dr.dk/A/A03L.mp3'},
+        {'name': 'P2',
+         'url': 'http://live-icy.gss.dr.dk/A/A04L.mp3'},
+        {'name': 'P3',
+         'url': 'http://live-icy.gss.dr.dk/A/A05L.mp3'},
+        {'name': 'P4_Kobenhavn',
+         'url': 'http://live-icy.gss.dr.dk/A/A08L.mp3'},
+        {'name': 'P5',
+         'url': 'http://live-icy.gss.dr.dk/A/A25L.mp3'}]
 
     # Define queues
     task_queue = Queue()
