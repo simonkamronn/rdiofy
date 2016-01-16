@@ -16,13 +16,13 @@ with contextlib.closing(wave.open('radio_test.wav', 'w')) as of:
     with FFmpegAudioFile(url, channels=1, sample_rate=44100, block_size=65536) as f:
         for idx, buf in enumerate(f):
             of.writeframes(buf)
-            if idx > 50: break
+            if idx > 10: break
 
 time.sleep(60)
 
-url = 'http://localhost:5000/match/'
+# url = 'http://localhost:5000/match/'
 # url = 'http://192.168.99.100:8000/match/'
-# url = 'http://46.101.177.208:8000/match/'
+url = 'http://46.101.177.208:8000/match/'
 files = {'audio_file': open('radio_test.wav', 'rb')}
 response = requests.post(url, files=files, data={'recording_time': recording_time,
                                                  'user_id': 'Simon',

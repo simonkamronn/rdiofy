@@ -122,16 +122,12 @@ def list_hashtable(connector):
 if __name__ == '__main__':
     # Setup radio recording
     radio_stations = [
-        {'name': 'P1',
-         'url': 'http://live-icy.gss.dr.dk/A/A03L.mp3'},
         {'name': 'P2',
          'url': 'http://live-icy.gss.dr.dk/A/A04L.mp3'},
         {'name': 'P3',
          'url': 'http://live-icy.gss.dr.dk/A/A05L.mp3'},
         {'name': 'P4_Kobenhavn',
-         'url': 'http://live-icy.gss.dr.dk/A/A08L.mp3'},
-        {'name': 'P5',
-         'url': 'http://live-icy.gss.dr.dk/A/A25L.mp3'}]
+         'url': 'http://live-icy.gss.dr.dk/A/A08L.mp3'}]
 
     # Define queues
     task_queue = Queue()

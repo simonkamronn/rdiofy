@@ -32,7 +32,7 @@ RUN pip install -v   \
   scikits.talkbox    \
   flask              \
   boto3              \
-  flask_apscheduler  
+  flask_apscheduler
 
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
 RUN ln -s /usr/bin/avconv /usr/local/bin/ffmpeg

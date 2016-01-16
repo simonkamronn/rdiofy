@@ -5,9 +5,9 @@ Fingerprint matching code for audfprint
 
 2014-05-26 Dan Ellis dpwe@ee.columbia.edu
 """
-import librosa
+# import librosa
 import numpy as np
-import scipy.signal
+# import scipy.signal
 
 import time
 # for checking phys mem size
@@ -17,7 +17,7 @@ import audfprint_analyze
 # import matplotlib
 # matplotlib.use('Agg')
 # import matplotlib.pyplot as plt
-import audio_read
+# import audio_read
 
 from scipy import stats
 

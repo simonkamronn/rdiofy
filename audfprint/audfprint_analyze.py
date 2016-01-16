@@ -11,7 +11,7 @@ from __future__ import print_function
 import os
 import numpy as np
 
-import scipy.signal
+from scipy.signal import spectrogram, lfilter
 
 # For reading/writing hashes to file
 import struct
@@ -23,7 +23,7 @@ import time
 # For utility, glob2hashtable
 import hash_table
 
-import librosa
+# import librosa
 
 import audio_read
 
@@ -271,9 +271,16 @@ class Analyzer(object):
                 **(1.0/OVERSAMP)
         # Take spectrogram
         mywin = np.hanning(self.n_fft+2)[1:-1]
-        sgram = np.abs(librosa.stft(d, n_fft=self.n_fft,
-                                    hop_length=self.n_hop,
-                                    window=mywin))
+        # sgram = np.abs(librosa.stft(d, n_fft=self.n_fft,
+        #                             hop_length=self.n_hop,
+        #                             window=mywin))
+
+        sgram, _, _ = np.abs(spectrogram(d,
+                                         nfft=self.n_fft,
+                                         noverlap=(self.n_fft - self.n_hop),
+                                         nperseg=self.n_fft,
+                                         window=mywin,
+                                         return_onesided=True))
         sgrammax = np.max(sgram)
         if sgrammax > 0.0:
             sgram = np.log(np.maximum(sgram, np.max(sgram)/1e6))
@@ -284,7 +291,7 @@ class Analyzer(object):
             print("find_peaks: Warning: input signal is identically zero.")
         # High-pass filter onset emphasis
         # [:-1,] discards top bin (nyquist) of sgram so bins fit in 8 bits
-        sgram = np.array([scipy.signal.lfilter([1, -1],
+        sgram = np.array([lfilter([1, -1],
                                                [1, -(HPF_POLE)** \
                                                 (1/OVERSAMP)], s_row)
                           for s_row in sgram])[:-1,]
