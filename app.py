@@ -2,33 +2,15 @@ from flask import Flask, request
 from audfprint_connector import Connector
 from datetime import datetime
 import logging
-from flask_apscheduler import APScheduler
 from recording import radiorec
 import boto3
 import time
+from multiprocessing import Process, Queue
+from numpy import sum
 dt_format = '%Y-%m-%d %H:%M:%S'
 
 # Initialize logging for APScheduler
 logging.basicConfig()
-
-# Create connector to audfprint
-afp = Connector()
-afp.verbose = False
-
-# Setup radio recording
-radiorec_args = radiorec.ARGS
-radiorec_args['duration'] = 60  # Seconds
-radiorec_args['dt_format'] = dt_format
-radiorec_args['url'] = 'http://live-icy.gss.dr.dk/A/A08L.mp3'
-radiorec_args['station'] = "P4_Kobenhavn"
-
-# Create recorder object
-recorder = radiorec.RadioRecorder(args=radiorec_args)
-
-
-def record(ingest):
-    if not recorder.recording:
-        recorder.record_stream(ingest)
 
 # DynamoDB resources
 dynamodb = boto3.resource('dynamodb', region_name='eu-central-1', endpoint_url="https://dynamodb.eu-central-1.amazonaws.com")
@@ -36,37 +18,62 @@ table = dynamodb.Table('audio_matches')
 
 
 class Config(object):
-    JOBS = [
-        {
-            'id': 'record',
-            'func': '__main__:record',
-            'args': (afp.ingest_array, app.logger.info),
-            'trigger': 'interval',
-            'minutes': 5
-        },
-        {
-            'id': 'reset hashtable',
-            'func': '__main__:reset_hashtable',
-            'args': (afp, ),
-            'trigger': 'interval',
-            'hours': 24
-        }
-    ]
-    SCHEDULER_JOB_DEFAULTS = {
-        'coalesce': False,
-        'max_instances': 5
-    }
-    SCHEDULER_EXECUTORS = {
-        'default': {'type': 'threadpool', 'max_workers': 10}
-    }
-    SCHEDULER_VIEWS_ENABLED = True
     DEBUG = False
 
-# Application setup 
-# TODO move apscheduler config to later so app can be passed as argument
+# Application setup
 app = Flask(__name__)
 app.config.from_object(Config())
-app.logger.setLevel(logging.INFO)  # use the native logger of flask
+app.logger.setLevel(logging.INFO)  # use the native logger in flask
+
+
+def consumer(task_queue, result_queue):
+    # Create connector to audfprint
+    afp = Connector()
+    
+    while True:
+        task, data = task_queue.get()
+
+        if 'match' in task:
+            tmp_file = data
+            match_station, nhashaligned = afp.match_file(tmp_file)
+
+            app.logger.info("Match: %s, hashes: %d" % (match_station, nhashaligned))
+            app.logger.info("Hashtable counts: %d" % int(sum(afp.hash_tab.counts)))
+
+            # Send result back to requester
+            result_queue.put((nhashaligned, match_station))
+
+        if 'ingest' in task:
+            array, station = data
+
+            # Calculate hashes
+            hashes = afp.fingerprint_array(array)
+
+            # Ingest into table
+            cur_dt = datetime.now().strftime(dt_format)
+            afp.hash_tab.store(station + '.' + cur_dt, hashes)
+            app.logger.info("Station: %s, hashes: %d" % (station + '.' + cur_dt, len(hashes)))
+
+
+def keep_recording(queue, stations):
+    app.logger.info("Starting main process")
+
+    # Define producer processes
+    recording_processes = [Process(target=radiorec.record_stream,
+                                   args=(radio_station, queue),
+                                   name=radio_station.get('name', ''))
+                           for radio_station in stations]
+    # Run processes
+    for p in recording_processes:
+        app.logger.info("Starting recording: %s" % p.name)
+        p.start()
+
+    while True:
+        # If they shut down, restart with join
+        for p in recording_processes:
+            if not p.is_alive():
+                app.logger.info("Restarting recording: %s" % p.name)
+                p.join()
 
 
 @app.route('/match/', methods=['POST'])
@@ -86,9 +93,12 @@ def station_match():
     # Wait a second for the file to be saved
     time.sleep(5)
 
-    # Match the file
-    match, nhash = afp.match(tmp_file)
-    app.logger.info("Match: %s, hashes: %d" % (match, nhash))
+    # Pass task to task queue
+    task_queue.put(('match', tmp_file))
+
+    # Wait for response
+    app.logger.info('Waiting for match result')
+    nhash, match = result_queue.get(timeout=60)
 
     # Commit match to database
     if nhash > 0:
@@ -110,10 +120,21 @@ def list_hashtable(connector):
     connector.hash_tab.list(app.logger.info)
 
 
-# Start scheduler
-scheduler = APScheduler()
-scheduler.init_app(app)
-scheduler.start()
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    # Setup radio recording
+    radio_stations = [{'name': 'P4_Kobenhavn',
+                       'url': 'http://live-icy.gss.dr.dk/A/A08H.mp3'}]
+
+    # Define queues
+    task_queue = Queue()
+    result_queue = Queue()
+
+    # Define a producer queue/process
+    producer_process = Process(target=keep_recording, args=(task_queue, radio_stations))
+    producer_process.start()
+
+    # Define consumer process
+    audfprint_process = Process(target=consumer, args=(task_queue, result_queue))
+    audfprint_process.start()
+
+    app.run(host='0.0.0.0', port=5000, use_reloader=False)

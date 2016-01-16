@@ -6,8 +6,6 @@ from contextlib import closing
 import audioread
 from audioread import ffdec
 import numpy as np
-from multiprocessing import Process, Queue
-
 SAMPLE_RATE = 44100
 CHUNK_SIZE = 1024
 
@@ -33,8 +31,7 @@ class RadioRecorder:
         self.url = args['url']
         if not self.url.endswith('mp3'):
             # Possibly a playlist file
-            remote_file = requests.get(self.url)
-            self.url = remote_file.content.decode('utf8').strip()
+            self.url = m3u_to_url(self.url)
 
     def record(self, ingest):
         cur_dt_string = datetime.datetime.now().strftime(self.dt_format)
@@ -60,12 +57,6 @@ class RadioRecorder:
             print(e)
 
     def record_stream(self, ingest, logger):
-        """
-        Start decoding from the URL and ingesting
-        :param logger: logging output
-        :param ingest: multiprocessing queue
-        :return:
-        """
         try:
             logger("Starting recording of %s" % self.station)
             self.recording = True
@@ -89,3 +80,22 @@ class RadioRecorder:
             except IOError, e:
                 print(e)
 
+
+def m3u_to_url(url):
+    remote_file = requests.get(url)
+    return remote_file.content.decode('utf8').strip()
+
+
+def record_stream(radio_station, queue):
+    url = radio_station.get('url')
+    station = radio_station.get('name')
+    if url.endswith('m3u'):
+        url = m3u_to_url(url)
+
+    try:
+        with ffdec.FFmpegAudioFile(url, block_size=65536*10) as f:
+            for buf in f:
+                queue.put(('ingest', (np.frombuffer(buf, np.int16).astype(np.float32), station)))
+
+    except audioread.DecodeError:
+        print("File could not be decoded")

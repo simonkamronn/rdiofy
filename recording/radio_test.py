@@ -1,0 +1,30 @@
+from datetime import datetime
+import requests
+import time
+from audioread import ffdec
+import wave
+import contextlib
+import numpy as np
+
+url = 'http://live-icy.gss.dr.dk/A/A08H.mp3'
+recording_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+with contextlib.closing(wave.open('radio_test.wav', 'w')) as of:
+    of.setframerate(44100)
+    of.setnchannels(1)
+    of.setsampwidth(2)
+    with ffdec.FFmpegAudioFile(url, block_size=65536) as f:
+        for idx, buf in enumerate(f):
+            of.writeframes(np.frombuffer(buf, np.int16))
+            if idx > 10: break
+
+# time.sleep(60)
+
+url = 'http://localhost:5000/match/'
+# url = 'http://192.168.99.100:8000/match/'
+# url = 'http://46.101.177.208:8000/match/'
+files = {'audio_file': open('radio_test.wav', 'rb')}
+response = requests.post(url, files=files, data={'recording_time': recording_time,
+                                                 'user_id': 'Simon',
+                                                 'file_type': 'wav'})
+print("Received match: %s" % response.text)

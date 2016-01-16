@@ -361,7 +361,7 @@ class Analyzer(object):
             # Store duration in a global because it's hard to handle
             dur = float(len(d))/sr
             if shifts is None or shifts < 2:
-                peaks = self.find_peaks(d, sr);
+                peaks = self.find_peaks(d, sr)
             else:
                 # Calculate hashes with optional part-frame shifts
                 peaklists = []

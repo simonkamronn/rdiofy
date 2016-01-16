@@ -152,8 +152,8 @@ class QueueReaderThread(threading.Thread):
 class FFmpegAudioFile(object):
     """An audio file decoded by the ffmpeg command-line utility."""
     def __init__(self, filename, channels=None, sample_rate=None, block_size=4096):
-        if not os.path.isfile(filename):
-            raise ValueError(filename + " not found.")
+        # if not os.path.isfile(filename):
+        #     raise ValueError(filename + " not found.")
         popen_args = ['ffmpeg', '-i', filename, '-f', 's16le']
         self.channels = channels
         self.sample_rate = sample_rate

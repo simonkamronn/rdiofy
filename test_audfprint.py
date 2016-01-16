@@ -5,7 +5,7 @@ import time
 import glob
 
 USAGE = afp.USAGE
-mp3_files = glob.glob('audiotest/*.mp3')
+mp3_files = glob.glob('*.wav')
 cmd = "match"
 argv = [cmd,
         "--dbase", "fdbase.pklz",
