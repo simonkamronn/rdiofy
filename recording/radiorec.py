@@ -3,8 +3,7 @@ import os
 import glob
 import requests
 from contextlib import closing
-import audioread
-from audioread import ffdec
+from audfprint.audio_read import FFmpegAudioFile
 import numpy as np
 SAMPLE_RATE = 44100
 CHUNK_SIZE = 1024
@@ -57,19 +56,14 @@ class RadioRecorder:
             print(e)
 
     def record_stream(self, ingest, logger):
-        try:
-            logger("Starting recording of %s" % self.station)
-            self.recording = True
-            with ffdec.FFmpegAudioFile(self.url, block_size=65536) as f:
-                for i, buf in enumerate(f):
-                    ingest(np.frombuffer(buf, np.int16).astype(np.float32), self.station)
+        logger("Starting recording of %s" % self.station)
+        self.recording = True
+        with FFmpegAudioFile(self.url, block_size=65536) as f:
+            for i, buf in enumerate(f):
+                ingest(np.frombuffer(buf, np.int16).astype(np.float32), self.station)
 
-        except audioread.DecodeError:
-            logger("File could not be decoded")
-
-        finally:
-            logger("Stopping recording of %s" % self.station)
-            self.recording = False
+        logger("Stopping recording of %s" % self.station)
+        self.recording = False
 
     def remove_files(self):
         for mp3_file in glob.glob(self.target_dir + '/*.mp3')[:-2]:
@@ -92,10 +86,6 @@ def record_stream(radio_station, queue):
     if url.endswith('m3u'):
         url = m3u_to_url(url)
 
-    try:
-        with ffdec.FFmpegAudioFile(url, block_size=65536*10) as f:
-            for buf in f:
-                queue.put(('ingest', (np.frombuffer(buf, np.int16).astype(np.float32), station)))
-
-    except audioread.DecodeError:
-        print("File could not be decoded")
+    with FFmpegAudioFile(url, block_size=65536*10) as f:
+        for buf in f:
+            queue.put(('ingest', (np.frombuffer(buf, np.int16).astype(np.float32), station)))
