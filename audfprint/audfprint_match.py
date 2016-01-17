@@ -19,7 +19,7 @@ import audfprint_analyze
 # import matplotlib.pyplot as plt
 # import audio_read
 
-from scipy import stats
+# from scipy import stats
 
 def log(message):
     """ log info with stats """

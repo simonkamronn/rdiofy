@@ -124,11 +124,11 @@ def do_cmd(cmd, analyzer, hash_tab, filename_iter, matcher, outdir, type, report
         # files are other hash tables, merge them in
         for filename in filename_iter:
             hash_tab2 = hash_table.HashTable(filename)
-            if "samplerate" in hash_tab.params:
-                assert hash_tab.params["samplerate"] == hash_tab2.params["samplerate"]
+            if "sample_rate" in hash_tab.params:
+                assert hash_tab.params["sample_rate"] == hash_tab2.params["sample_rate"]
             else:
-                # "newmerge" fails to setup the samplerate param
-                hash_tab.params["samplerate"] = hash_tab2.params["samplerate"]
+                # "newmerge" fails to setup the sample_rate param
+                hash_tab.params["sample_rate"] = hash_tab2.params["sample_rate"]
             hash_tab.merge(hash_tab2)
 
     elif cmd == 'precompute':
@@ -257,7 +257,7 @@ def setup_analyzer(args):
     analyzer.f_sd = float(args['--freq-sd'])
     analyzer.shifts = int(args['--shifts'])
     # fixed - 512 pt FFT with 256 pt hop at 11025 Hz
-    analyzer.target_sr = int(args['--samplerate'])
+    analyzer.target_sr = int(args['--sample_rate'])
     analyzer.n_fft = 512
     analyzer.n_hop = analyzer.n_fft/2
     # set default value for shifts depending on mode
@@ -323,7 +323,7 @@ Options:
   -b <val>, --bucketsize <val>    Number of entries per bucket [default: 100]
   -t <val>, --maxtime <val>       Largest time value stored [default: 16384]
   -u <val>, --maxtimebits <val>   maxtime as a number of bits (16384 == 14 bits)
-  -r <val>, --samplerate <val>    Resample input files to this [default: 11025]
+  -r <val>, --sample_rate <val>    Resample input files to this [default: 11025]
   -p <dir>, --precompdir <dir>    Save precomputed files under this dir [default: .]
   -i <val>, --shifts <val>        Use this many subframe shifts building fp [default: 0]
   -w <val>, --match-win <val>     Maximum tolerable frame skew to count as a match [default: 2]
@@ -405,19 +405,19 @@ def main(argv):
                 hashbits=int(args['--hashbits']),
                 depth=int(args['--bucketsize']),
                 maxtime=(1 << int(args['--maxtimebits'])))
-            # Set its samplerate param
+            # Set its sample_rate param
             if analyzer:
-                hash_tab.params['samplerate'] = analyzer.target_sr
+                hash_tab.params['sample_rate'] = analyzer.target_sr
 
         else:
             # Load existing hash table file (add, match, merge)
             if args['--verbose']:
                 report([time.ctime() + " Reading hash table " + dbasename])
             hash_tab = hash_table.HashTable(dbasename)
-            if analyzer and 'samplerate' in hash_tab.params \
-                   and hash_tab.params['samplerate'] != analyzer.target_sr:
-                # analyzer.target_sr = hash_tab.params['samplerate']
-                print("db samplerate overridden to ", analyzer.target_sr)
+            if analyzer and 'sample_rate' in hash_tab.params \
+                   and hash_tab.params['sample_rate'] != analyzer.target_sr:
+                # analyzer.target_sr = hash_tab.params['sample_rate']
+                print("db sample_rate overridden to ", analyzer.target_sr)
     else:
         # The command IS precompute
         # dummy empty hash table

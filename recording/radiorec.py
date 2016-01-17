@@ -3,9 +3,10 @@ import os
 import glob
 import requests
 from contextlib import closing
-from audfprint.audio_read import FFmpegAudioFile, buf_to_float
+from audfprint.audio_read import FFmpegAudioFile
 import numpy as np
-SAMPLE_RATE = 44100
+import wave
+SAMPLE_RATE = 11025
 CHUNK_SIZE = 1024
 
 ARGS = {'url': 'http://live-icy.gss.dr.dk/A/A05H.mp3',  # DR P3
@@ -81,6 +82,12 @@ def m3u_to_url(url):
 
 
 def record_stream(radio_station, queue):
+    """
+    Record a radio stream an send segments to be ingested
+    :param radio_station: name of the station
+    :param queue: queue to consumer
+    :return:
+    """
     url = radio_station.get('url')
     station = radio_station.get('name')
     if url.endswith('m3u'):
@@ -88,11 +95,12 @@ def record_stream(radio_station, queue):
 
     y = []
     idx = 0
-    with FFmpegAudioFile(url, channels=1, sample_rate=44100, block_size=65536) as f:
+    with FFmpegAudioFile(url, channels=1, sample_rate=SAMPLE_RATE, block_size=4096) as f:
         for buf in f:
             idx += 1
-            y.append(buf_to_float(buf, dtype=np.float32))
-            if idx > 100:
-                queue.put(('ingest', (np.ascontiguousarray(np.concatenate(y), dtype=np.float32), station)))
+            y.append(buf)
+
+            if idx > 200:
+                queue.put(('ingest', (y, station)))
                 y = []
                 idx = 0

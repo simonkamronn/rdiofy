@@ -7,8 +7,13 @@ from recording import radiorec
 import boto3
 import time
 from multiprocessing import Process, Queue
-from numpy import sum
-dt_format = '%Y-%m-%d %H:%M'
+from Queue import Empty
+from audfprint.audio_read import buf_to_float
+import numpy as np
+import wave
+import contextlib
+
+dt_format = '%Y-%m-%d %H:%M:%S'
 
 # Initialize logging for APScheduler
 logging.basicConfig()
@@ -37,18 +42,30 @@ def consumer(task_queue, result_queue):
         if 'match' in task:
             tmp_file = data
             match_station, nhashaligned = afp.match_file(tmp_file)
-
             app.logger.info("Match: %s, hashes: %d" % (match_station, nhashaligned))
-            app.logger.info("Hashtable counts: %d" % int(sum(afp.hash_tab.counts)))
 
             # Send result back to requester
             result_queue.put((nhashaligned, match_station))
 
         if 'ingest' in task:
             array, station = data
+            cur_dt = datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)
+
+            # # Save to file
+            # file_name = 'recordings/%s_%s.wav' % (station, cur_dt.replace(':', ''))
+            # with contextlib.closing(wave.open(file_name, 'w')) as of:
+            #     of.setframerate(afp.sample_rate)
+            #     of.setnchannels(1)
+            #     of.setsampwidth(2)
+            #     for buf in array:
+            #         of.writeframes(buf)
+
+            # Convert array
+            array = np.ascontiguousarray(np.concatenate(
+                    [buf_to_float(buf, dtype=np.float32) for buf in array]
+                ), dtype=np.float32)
 
             # Ingest into table
-            cur_dt = datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)
             afp.ingest_array(array, station + '.' + cur_dt)
 
 
@@ -75,12 +92,10 @@ def keep_recording(queue, stations):
 
 @app.route('/match/', methods=['POST'])
 def station_match():
-    app.logger.info('Got a new match request')
     recording_time = request.form.get('recording_time', '')
     user_id = request.form.get('user_id', '')
     file_type = request.form.get('file_type', 'wav')
-    if recording_time is not '':
-        app.logger.info("Recording time: %s" % recording_time)
+    app.logger.info("Recording time: %s" % recording_time)
 
     # Save file to disk
     # TODO load file directly instead of saving to disk
@@ -94,8 +109,10 @@ def station_match():
     task_queue.put(('match', tmp_file))
 
     # Wait for response
-    app.logger.info('Waiting for match result')
-    nhash, match = result_queue.get(timeout=60)
+    try:
+        nhash, match = result_queue.get(timeout=60)
+    except Empty:
+        nhash, match = 0, ''
 
     # Commit match to database
     if nhash > 0:
