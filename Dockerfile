@@ -24,7 +24,8 @@ RUN pip install -v   \
   joblib             \
   flask              \
   boto3              \
-  stft
+  stft               \
+  pytz
 
 
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
