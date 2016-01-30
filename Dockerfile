@@ -7,6 +7,8 @@ RUN apt-get update
 RUN apt-get --force-yes -y install \
   curl               \
   libav-tools        \
+  libsamplerate0     \
+  libsamplerate0-dev \
   libsndfile1        \
   libsndfile-dev     \
   python             \
@@ -20,11 +22,16 @@ RUN apt-get --force-yes -y install \
   git
 
 RUN pip install -v   \
+  matplotlib         \
   docopt             \
   joblib             \
+  librosa            \
+  scikits.audiolab   \
+  scikits.example    \
+  scikits.samplerate \
+  scikits.talkbox    \
   flask              \
   boto3              \
-  stft               \
   pytz
 
 
