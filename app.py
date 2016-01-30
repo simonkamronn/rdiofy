@@ -41,11 +41,22 @@ def consumer(task_queue, result_queue):
 
         if 'match' in task:
             tmp_file = data
-            match_station, nhashaligned = afp.match_file(tmp_file)
-            app.logger.info("Match: %s, hashes: %d" % (match_station, nhashaligned))
-
+            matches = afp.match_file(tmp_file)
+            max_hashes = 0
+            for station in matches.keys():
+                n_total_hashes = np.sum(matches[station]['hashes'])
+                if n_total_hashes > max_hashes:
+                    max_hashes = n_total_hashes
+                    match_station = station
+                    match_time = matches[station]['time'][np.argmax(matches[station]['hashes'])]
+                    
+                for i in range(len(matches[station]['hashes'])):
+                    app.logger.info("Match: %s, hashes: %d, time: %s" % (station, matches[station]['hashes'][i], matches[station]['time'][i]))
+            
             # Send result back to requester
-            result_queue.put((nhashaligned, match_station))
+            result_queue.put((max_hashes, 
+                              match_station if match_station else '', 
+                              match_time if match_time else ''))
 
         if 'ingest' in task:
             array, station = data
@@ -102,21 +113,20 @@ def station_match():
     tmp_file = 'tmp_audio' + '.' + file_type
     request.files.get('audio_file').save(tmp_file)
 
-    # Wait a second for the file to be saved
-    time.sleep(1)
+    # Wait a few second for the file to be saved
+    time.sleep(5)
 
     # Pass task to task queue
     task_queue.put(('match', tmp_file))
 
     # Wait for response
     try:
-        nhash, match = result_queue.get(timeout=60)
+        nhash, station, match_time = result_queue.get(timeout=60)
     except Empty:
-        nhash, match = 0, ''
+        nhash, station = 0, ''
 
     # Commit match to database
     if nhash > 0:
-        station, match_time = match.split('.')
         table.put_item(Item=dict(match_id=station,
                                  user_id=user_id,
                                  hash_count=int(nhash),
@@ -124,7 +134,7 @@ def station_match():
                                  recording_time=recording_time,
                                  timestamp=datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)))
 
-    return match if match is not None else ('', 204)
+    return station + match_time if station is not None else ('', 204)
 
 
 def reset_hashtable(connector):

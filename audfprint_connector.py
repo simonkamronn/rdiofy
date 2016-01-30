@@ -4,19 +4,20 @@ from audfprint.audio_read import audio_read
 import docopt
 
 USAGE = afp.USAGE
-ARGV = ['new',
-        '--verbose', '0',
+ARGV = ["new",
+        "--verbose", "0",
         "--density", "70",
         "--fanout", "8",
         "--bucketsize", "100",
         "--ncores", "1",
-        "--search-depth", "100",
+        "--search-depth", "10",  # Number of ids for each hash to save
         "--min-count", "1",
-        "--hashbits", "20",
-        '--continue-on-error', 'False'
-        '--sample_rate', '11025']
+        "--hashbits", "20",  # Bits used to save hashes. Number of hashes to save = 2^hashbits
+        "--continue-on-error", "False",
+        "--sample_rate", "11025",
+        "--max-matches", "5",
+        "--maxtime", "4096"]
 ARGS = docopt.docopt(USAGE, version=1, argv=ARGV)
-
 
 class Connector(object):
     def __init__(self, args=ARGS):
@@ -26,12 +27,12 @@ class Connector(object):
         self.args.shifts = 1
         self.analyzer = afp.setup_analyzer(self.args)
         # Setup matcher
-        self.args.shifts = 1
+        self.args.shifts = 4
         self.match_analyzer = afp.setup_analyzer(self.args)
         self.matcher = afp.setup_matcher(self.args)
 
         self.ncores = 1  # Not very CPU intensitive at this point
-        self.hash_tab = self.new_hashtable()  # We should keep an array of tables
+        self.hash_tab = self.new_hashtable()
         self.sample_rate = int(args['--sample_rate'])
 
     def match_file(self, audio_file):
@@ -41,19 +42,28 @@ class Connector(object):
         array, sr = audio_read(audio_file, sr=self.sample_rate, channels=1)
         hashes = self.fingerprint_array(array)
         result = self.matcher.match_hashes(self.hash_tab, hashes)
+
+        # The audio clip is likely spanning recordings so we will return multiple results with high score
+        matches = dict()
+        for r in result:
+            id, nhashaligned, aligntime, nhashraw, rank, min_time, max_time = r
+            if nhashaligned > 10:
+                station, time = self.hash_tab.names[id].split('.')
+                if station not in matches.keys():
+                    matches[station] = {'hashes': [nhashaligned],
+                                        'time': [time]}
+                else:
+                    matches[station]['hashes'] += [nhashaligned]
+                    matches[station]['time'] += [time]
         
-        if len(result) > 0:
-            tophitid, nhashaligned, aligntime, nhashraw, rank, min_time, max_time = result[0]
-            match_station = self.hash_tab.names[tophitid]
-            return match_station, nhashaligned
-        else:
-            return None, 0
+        return matches
 
     def ingest_array(self, array, store_name):
         hashes = self.fingerprint_array(array)
         if self.verbose:
             print('ingested: %s, nhash: %d' % (store_name, len(hashes)))
         self.hash_tab.store(store_name, hashes)
+        return len(hashes)
 
     def ingest_file(self, audio_file, store_name):
         hashes = self.analyzer.wavfile2hashes(audio_file)
@@ -68,7 +78,7 @@ class Connector(object):
         hash_tab = hash_table.HashTable(
                 hashbits=int(self.args['--hashbits']),
                 depth=int(self.args['--bucketsize']),
-                maxtime=4096)
+                maxtime=int(self.args['--maxtime']))
         return hash_tab
 
     def fingerprint_array(self, array):

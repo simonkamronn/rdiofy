@@ -21,10 +21,10 @@ import time
 # For utility, glob2hashtable
 import hash_table
 
-# from librosa import stft
+from librosa import stft
 # from scipy.signal import spectrogram, lfilter
 from scipy.signal import lfilter
-import stft
+# import stft
 
 import audio_read
 
@@ -272,10 +272,13 @@ class Analyzer(object):
                 **(1.0/OVERSAMP)
         # Take spectrogram
         mywin = np.hanning(self.n_fft+2)[1:-1]
-        # sgram = np.abs(stft(d, n_fft=self.n_fft,
-        #                     hop_length=self.n_hop,
-        #                     window=mywin))
-        #
+        
+        # Librosa
+        sgram = np.abs(stft(d, n_fft=self.n_fft,
+                            hop_length=self.n_hop,
+                            window=mywin))
+        
+        # Scipy Spectrogram        
         # _, _, sgram = np.abs(spectrogram(d,
         #                                  nfft=self.n_fft,
         #                                  noverlap=(self.n_fft - self.n_hop),
@@ -284,17 +287,17 @@ class Analyzer(object):
         #                                  return_onesided=True))
 
         # This creates many more fingerprints. Maybe good, maybe bad
-        sgram = stft.spectrogram(
-                d,
-                framelength=self.n_fft,
-                hopsize=self.n_hop,
-                centered=True,
-                window=mywin,
-                halved=True,
-                transform=None,
-                padding=0,
-                save_settings=False,
-            )
+        # sgram = stft.spectrogram(
+        #         d,
+        #         framelength=self.n_fft,
+        #         hopsize=self.n_hop,
+        #         centered=True,
+        #         window=mywin,
+        #         halved=True,
+        #         transform=None,
+        #         padding=0,
+        #         save_settings=False,
+        #     )
         sgrammax = np.max(sgram)
         if sgrammax > 0.0:
             sgram = np.log(np.maximum(sgram, np.max(sgram)/1e6))
