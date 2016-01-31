@@ -83,22 +83,37 @@ def consumer(task_queue, result_queue):
 def keep_recording(queue, stations):
     app.logger.info("Starting main process")
 
+    recording_processes = dict()
     # Define producer processes
-    recording_processes = [Process(target=radiorec.record_stream,
-                                   args=(radio_station, queue),
-                                   name=radio_station.get('name', ''))
-                           for radio_station in stations]
+    for n, radio_station in enumerate(stations):
+        recording_processes[n] = (Process(target=radiorec.record_stream,
+                                          args=(radio_station, queue),
+                                          name=radio_station.get('name', '')), 
+                                  radio_station)
     # Run processes
-    for p in recording_processes:
+    for n in recording_processes:
+        (p, radio_station) = recording_processes[n]
         app.logger.info("Starting recording: %s" % p.name)
         p.start()
 
     while True:
-        # If they shut down, restart with join
-        for p in recording_processes:
+        # If they shut down, restart
+        for n in recording_processes:
+            (p, radio_station) = recording_processes[n]
             if not p.is_alive():
                 app.logger.info("Restarting recording: %s" % p.name)
-                p.join()
+                p.join()  # Tidy up?
+                del recording_processes[n]  # Delete from dict
+                # Define new process
+                p = Process(target=radiorec.record_stream,
+                            args=(radio_station, queue),
+                            name=radio_station.get('name', ''))
+                p.start()
+                recording_processes[n] = (p, radio_station)
+                
+                # In case it doesn't start, wait a bit before retrying
+                time.sleep(1)
+                
 
 
 @app.route('/match/', methods=['POST'])
@@ -123,7 +138,7 @@ def station_match():
     try:
         nhash, station, match_time = result_queue.get(timeout=60)
     except Empty:
-        nhash, station = 0, ''
+        nhash, station = 0, None
 
     # Commit match to database
     if nhash > 0:
@@ -134,7 +149,7 @@ def station_match():
                                  recording_time=recording_time,
                                  timestamp=datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)))
 
-    return station + match_time if station is not None else ('', 204)
+    return station + " " + match_time if station is not None else ('', 204)
 
 
 def reset_hashtable(connector):
