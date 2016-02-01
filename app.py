@@ -128,7 +128,7 @@ def station_match():
     try:
         request.files.get('audio_file').save(tmp_file)
     except AttributeError:
-        app.loggger.info("No file attached")
+        app.logger.info("No file attached")
         
     # Wait a few second for the file to be saved
     time.sleep(5)

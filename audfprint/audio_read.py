@@ -21,6 +21,31 @@ import os
 import numpy as np
 
 
+class DecodeError(Exception):
+    """The base exception class for all decoding errors raised by this
+    package.
+    """
+
+class FFmpegError(DecodeError):
+    pass
+
+class CommunicationError(FFmpegError):
+    """Raised when the output of FFmpeg is not parseable."""
+
+class UnsupportedError(FFmpegError):
+    """The file could not be decoded by FFmpeg."""
+
+class NotInstalledError(FFmpegError):
+    """Could not find the ffmpeg binary."""
+
+class ReadTimeoutError(FFmpegError):
+    """Reading from the ffmpeg command-line tool timed out."""
+
+class QueueReaderThread(threading.Thread):
+    """A thread that consumes data from a filehandle and sends the data
+    over a Queue.
+    """
+
 def audio_read(filename, sr=None, channels=None):
     """Read a soundfile, return (d, sr)."""
     # Hacked version of librosa.load and audioread/ff.

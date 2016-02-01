@@ -39,9 +39,13 @@ class Connector(object):
         """
         Read file into numpy array, fingerprint to hashes and match from hash table
         """
-        array, sr = audio_read(audio_file, sr=self.sample_rate, channels=1)
-        hashes = self.fingerprint_array(array)
-        result = self.matcher.match_hashes(self.hash_tab, hashes)
+        try: 
+            array, sr = audio_read(audio_file, sr=self.sample_rate, channels=1)
+            hashes = self.fingerprint_array(array)
+            result = self.matcher.match_hashes(self.hash_tab, hashes)
+        except audio_read.UnsupportedError:
+            hashes = []
+            result = []           
 
         # The audio clip is likely spanning recordings so we will return multiple results with high score
         matches = dict()
