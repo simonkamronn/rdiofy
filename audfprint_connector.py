@@ -2,6 +2,7 @@ import audfprint.audfprint as afp
 from audfprint import hash_table, audfprint_analyze
 from audfprint.audio_read import audio_read
 import docopt
+from audio_read import UnsupportedError
 
 USAGE = afp.USAGE
 ARGV = ["new",
@@ -43,7 +44,7 @@ class Connector(object):
             array, sr = audio_read(audio_file, sr=self.sample_rate, channels=1)
             hashes = self.fingerprint_array(array)
             result = self.matcher.match_hashes(self.hash_tab, hashes)
-        except audio_read.UnsupportedError:
+        except UnsupportedError:
             hashes = []
             result = []           
 

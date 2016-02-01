@@ -20,7 +20,6 @@
 import os
 import numpy as np
 
-
 class DecodeError(Exception):
     """The base exception class for all decoding errors raised by this
     package.
