@@ -43,6 +43,7 @@ def consumer(task_queue, result_queue):
             tmp_file = data
             matches = afp.match_file(tmp_file)
             max_hashes = 0
+            match_station = match_time = None
             for station in matches.keys():
                 n_total_hashes = np.sum(matches[station]['hashes'])
                 if n_total_hashes > max_hashes:
@@ -54,9 +55,7 @@ def consumer(task_queue, result_queue):
                     app.logger.info("Match: %s, hashes: %d, time: %s" % (station, matches[station]['hashes'][i], matches[station]['time'][i]))
             
             # Send result back to requester
-            result_queue.put((max_hashes, 
-                              match_station if match_station else '', 
-                              match_time if match_time else ''))
+            result_queue.put((max_hashes, match_station, match_time))
 
         if 'ingest' in task:
             array, station = data
@@ -126,8 +125,11 @@ def station_match():
     # Save file to disk
     # TODO load file directly instead of saving to disk
     tmp_file = 'tmp_audio' + '.' + file_type
-    request.files.get('audio_file').save(tmp_file)
-
+    try:
+        request.files.get('audio_file').save(tmp_file)
+    except AttributeError:
+        app.loggger.info("No file attached")
+        
     # Wait a few second for the file to be saved
     time.sleep(5)
 
@@ -149,7 +151,7 @@ def station_match():
                                  recording_time=recording_time,
                                  timestamp=datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)))
 
-    return station + " " + match_time if station is not None else ('', 204)
+    return station + " " + match_time + " matches: " + str(nhash) if station is not None else ('', 204)
 
 
 def reset_hashtable(connector):
