@@ -2,7 +2,7 @@ import audfprint.audfprint as afp
 from audfprint import hash_table, audfprint_analyze
 from audfprint.audio_read import audio_read
 import docopt
-from audio_read import UnsupportedError
+from audfprint.audio_read import UnsupportedError
 
 USAGE = afp.USAGE
 ARGV = ["new",
