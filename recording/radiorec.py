@@ -6,7 +6,7 @@ from contextlib import closing
 from audfprint.audio_read import FFmpegAudioFile
 import numpy as np
 import wave
-SAMPLE_RATE = 11025
+SAMPLE_RATE = 8000
 CHUNK_SIZE = 1024
 
 ARGS = {'url': 'http://live-icy.gss.dr.dk/A/A05H.mp3',  # DR P3

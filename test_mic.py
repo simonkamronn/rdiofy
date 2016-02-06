@@ -10,9 +10,9 @@ with rec.open('mic_recording.wav', 'wb') as recfile:
 
 time.sleep(60)
 	
-url = 'http://localhost:5000/match/'
+# url = 'http://localhost:5000/match/'
 # url = 'http://192.168.99.100:8000/match/'
-# url = 'http://46.101.141.191:8000/match/'
+url = 'http://46.101.141.191:8000/match/'
 files = {'audio_file': open('mic_recording.wav', 'rb')}
 response = requests.post(url, files=files, data={'recording_time': recording_time,
                                                  'user_id': 'Simon_laptop_mic',

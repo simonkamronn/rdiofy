@@ -15,7 +15,7 @@ ARGV = ["new",
         "--min-count", "1",
         "--hashbits", "20",  # Bits used to save hashes. Number of hashes to save = 2^hashbits
         "--continue-on-error", "False",
-        "--sample_rate", "11025",
+        "--sample_rate", "8000",
         "--max-matches", "5",
         "--maxtime", "4096"]
 ARGS = docopt.docopt(USAGE, version=1, argv=ARGV)
