@@ -6,8 +6,8 @@ import wave
 import contextlib
 import numpy as np
 
-SAMPLE_RATE = 11025
-url = 'http://live-icy.gss.dr.dk/A/A05L.mp3'
+SAMPLE_RATE = 8000
+url = 'http://live-icy.gss.dr.dk/A/A08L.mp3'
 recording_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 with contextlib.closing(wave.open('radio_test.wav', 'w')) as of:
@@ -17,9 +17,9 @@ with contextlib.closing(wave.open('radio_test.wav', 'w')) as of:
     with FFmpegAudioFile(url, channels=1, sample_rate=SAMPLE_RATE, block_size=4096) as f:
         for idx, buf in enumerate(f):
             of.writeframes(buf)
-            if idx > 150: break
+            if idx > 100: break
 
-time.sleep(120)
+time.sleep(60)
 
 urls = []
 #urls += ['http://localhost:5000/match/']
