@@ -13,6 +13,7 @@ import numpy as np
 import wave
 import contextlib
 import hashlib
+import json
 
 dt_format = '%Y-%m-%d %H:%M:%S'
 
@@ -137,28 +138,29 @@ def station_match():
 
     # Wait for response
     try:
-        nhash, station, match_time = result_queue.get(timeout=60)
+        hash_count, station, match_time = result_queue.get(timeout=60)
     except Empty:
-        nhash, station = 0, ''
+        hash_count, station = 0, ''
 
     # Commit match to database
-    if nhash > 0:
+    if hash_count > 0:
         # Generate unique id
         id = hashlib.md5(user_id + station + match_time).hexdigest()
     
         table.put_item(Item=dict(id=id,
                                  station=station,
                                  user_id=user_id,
-                                 hash_count=int(nhash),
+                                 hash_count=int(hash_count),
                                  match_time=match_time,
                                  recording_time=recording_time,
-                                 timestamp=datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)),
-                                 user_answer="")
+                                 timestamp=datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format),
+                                 user_answer="None"))
 
-    return json.dumps({'station': station, 
-                       'match_time': match_time, 
-                       'hash_count': hash_count, 
-                       'id': id}) if station is not '' else ('', 204)
+        return json.dumps({'station': station, 
+                            'match_time': match_time, 
+                            'hash_count': hash_count, 
+                            'id': id}) 
+    return ('', 204)
 
 
 def reset_hashtable(connector):
@@ -172,21 +174,21 @@ def list_hashtable(connector):
 
 @app.route('/answer/', methods=['POST'])
 def match_answer():
-    id = request.form.get('id', '')
-    answer = request.form.get('answer', '')
+    id = request.form.get('id', 'None')
+    answer = request.form.get('answer', 'None')
     
-    table.update_item(
-        Key={
-            'id': id
-        },
-        UpdateExpression='SET user_answer = :val1',
-        ExpressionAttributeValues={
-            ':val1': answer
-        }
-    )
+    if id is not 'None':
+        table.update_item(
+            Key={
+                'id': id
+            },
+            UpdateExpression='SET user_answer = :val1',
+            ExpressionAttributeValues={
+                ':val1': answer
+            }
+        )
     
     app.logger.info("answer: %s" % answer)
-    
     return 'OK'
     
     
