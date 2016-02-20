@@ -12,6 +12,7 @@ from audfprint.audio_read import buf_to_float
 import numpy as np
 import wave
 import contextlib
+import hashlib
 
 dt_format = '%Y-%m-%d %H:%M:%S'
 
@@ -21,7 +22,6 @@ logging.basicConfig()
 # DynamoDB resources
 dynamodb = boto3.resource('dynamodb', region_name='eu-central-1', endpoint_url="https://dynamodb.eu-central-1.amazonaws.com")
 table = dynamodb.Table('audio_matches')
-
 
 class Config(object):
     DEBUG = False
@@ -114,7 +114,6 @@ def keep_recording(queue, stations):
                 time.sleep(1)
                 
 
-
 @app.route('/match/', methods=['POST'])
 def station_match():
     recording_time = request.form.get('recording_time', '')
@@ -140,18 +139,26 @@ def station_match():
     try:
         nhash, station, match_time = result_queue.get(timeout=60)
     except Empty:
-        nhash, station = 0, None
+        nhash, station = 0, ''
 
     # Commit match to database
     if nhash > 0:
-        table.put_item(Item=dict(match_id=station,
+        # Generate unique id
+        id = hashlib.md5(user_id + station + match_time).hexdigest()
+    
+        table.put_item(Item=dict(id=id,
+                                 station=station,
                                  user_id=user_id,
                                  hash_count=int(nhash),
                                  match_time=match_time,
                                  recording_time=recording_time,
-                                 timestamp=datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)))
+                                 timestamp=datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)),
+                                 user_answer="")
 
-    return station + " " + match_time + " matches: " + str(nhash) if station is not None else ('', 204)
+    return json.dumps({'station': station, 
+                       'match_time': match_time, 
+                       'hash_count': hash_count, 
+                       'id': id}) if station is not '' else ('', 204)
 
 
 def reset_hashtable(connector):
@@ -162,6 +169,27 @@ def reset_hashtable(connector):
 def list_hashtable(connector):
     connector.hash_tab.list(app.logger.info)
 
+
+@app.route('/answer/', methods=['POST'])
+def match_answer():
+    id = request.form.get('id', '')
+    answer = request.form.get('answer', '')
+    
+    table.update_item(
+        Key={
+            'id': id
+        },
+        UpdateExpression='SET user_answer = :val1',
+        ExpressionAttributeValues={
+            ':val1': answer
+        }
+    )
+    
+    app.logger.info("answer: %s" % answer)
+    
+    return 'OK'
+    
+    
 
 if __name__ == '__main__':
     # Setup radio recording
