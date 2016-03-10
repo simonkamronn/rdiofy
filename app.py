@@ -10,14 +10,13 @@ from multiprocessing import Process, Queue
 from Queue import Empty
 from audfprint.audio_read import buf_to_float
 import numpy as np
-import wave
-import contextlib
+# import wave
+# import contextlib
 import hashlib
 import json
+from gevent.wsgi import WSGIServer
 
 dt_format = '%Y-%m-%d %H:%M:%S'
-
-# Initialize logging for APScheduler
 logging.basicConfig()
 
 # DynamoDB resources
@@ -191,13 +190,12 @@ def match_answer():
     app.logger.info("answer: %s" % answer)
     return 'OK'
     
-    
 
 if __name__ == '__main__':
     # Setup radio recording
     radio_stations = [
-		{'name': 'P1',
-		 'url': 'http://live-icy.gss.dr.dk/A/A03L.mp3'},
+        {'name': 'P1',
+         'url': 'http://live-icy.gss.dr.dk/A/A03L.mp3'},
         {'name': 'P2',
          'url': 'http://live-icy.gss.dr.dk/A/A04L.mp3'},
         {'name': 'P3',
@@ -225,4 +223,7 @@ if __name__ == '__main__':
     audfprint_process = Process(target=consumer, args=(task_queue, result_queue))
     audfprint_process.start()
 
-    app.run(host='0.0.0.0', port=5000, use_reloader=False)
+    # app.run(host='0.0.0.0', port=5000, use_reloader=False)
+
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()

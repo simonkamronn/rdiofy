@@ -195,8 +195,12 @@ class FFmpegAudioFile(object):
         self.stderr_reader = QueueReaderThread(self.proc.stderr)
         self.stderr_reader.start()
 
-    def read_data(self, timeout=10.0):
-        """Read blocks of raw PCM data from the file."""
+    def read_data(self, timeout=30.0):
+        """
+        Read blocks of raw PCM data from the file.
+        :param timeout: timeout in seconds
+        :return: data
+        """
         # Read from stdout in a separate thread and consume data from
         # the queue.
         start_time = time.time()
