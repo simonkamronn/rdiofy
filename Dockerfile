@@ -32,7 +32,8 @@ RUN pip install -v   \
   scikits.talkbox    \
   flask              \
   boto3              \
-  pytz
+  pytz               \
+  gevent
 
 
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
