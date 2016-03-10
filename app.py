@@ -23,6 +23,7 @@ logging.basicConfig()
 dynamodb = boto3.resource('dynamodb', region_name='eu-central-1', endpoint_url="https://dynamodb.eu-central-1.amazonaws.com")
 table = dynamodb.Table('audio_matches')
 
+
 class Config(object):
     DEBUG = False
 
@@ -37,13 +38,14 @@ def consumer(task_queue, result_queue):
     afp = Connector()
     
     while True:
-        task, data = task_queue.get()
+        task, data = task_queue.get()  # Blocking
 
         if 'match' in task:
             tmp_file = data
-            matches = afp.match_file(tmp_file)
             max_hashes = 0
             match_station = match_time = None
+
+            matches = afp.match_file(tmp_file)
             for station in matches.keys():
                 n_total_hashes = np.sum(matches[station]['hashes'])
                 if n_total_hashes > max_hashes:
@@ -110,8 +112,8 @@ def keep_recording(queue, stations):
                 p.start()
                 recording_processes[n] = (p, radio_station)
                 
-                # In case it doesn't start, wait a bit before retrying
-                time.sleep(1)
+            # Wait a bit before retrying
+            time.sleep(10)
                 
 
 @app.route('/match/', methods=['POST'])
