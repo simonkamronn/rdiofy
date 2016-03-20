@@ -225,6 +225,7 @@ if __name__ == '__main__':
     audfprint_process = Process(target=consumer, args=(task_queue, result_queue))
     audfprint_process.start()
 
+    # Dev server
     # app.run(host='0.0.0.0', port=5000, use_reloader=False)
 
     http_server = WSGIServer(('', 5000), app)

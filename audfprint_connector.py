@@ -3,6 +3,7 @@ from audfprint import hash_table, audfprint_analyze
 from audfprint.audio_read import audio_read
 import docopt
 from audfprint.audio_read import UnsupportedError
+from audfprint.postgres_db import PostgreSQLDB
 
 USAGE = afp.USAGE
 ARGV = ["new",
@@ -14,11 +15,12 @@ ARGV = ["new",
         "--search-depth", "10",  # Number of ids for each hash to save
         "--min-count", "1",
         "--hashbits", "20",  # Bits used to save hashes. Number of hashes to save = 2^hashbits
-        "--continue-on-error", "False",
+        "--continue-on-error", "True",
         "--sample_rate", "8000",
         "--max-matches", "5",
         "--maxtime", "4096"]
 ARGS = docopt.docopt(USAGE, version=1, argv=ARGV)
+
 
 class Connector(object):
     def __init__(self, args=ARGS):
@@ -31,12 +33,41 @@ class Connector(object):
         self.args.shifts = 4
         self.match_analyzer = afp.setup_analyzer(self.args)
         self.matcher = afp.setup_matcher(self.args)
-
         self.ncores = 1  # Not very CPU intensitive at this point
-        self.hash_tab = self.new_hashtable()
         self.sample_rate = int(args['--sample_rate'])
+        self.using_hashtable = args['--hashtable']
+
+        # Database connection
+        if self.using_hashtable:
+            self.hash_tab = self.new_hashtable()
+            print("Using Numpy hashtable")
+        else:
+            self.db = PostgreSQLDB(drop_tables=True)
+            print("Using PostgreSQL database")
 
     def match_file(self, audio_file):
+        if self.using_hashtable:
+            return self.match_file_hash_table(audio_file)
+        else:
+            return self.match_file_db(audio_file)
+
+    def match_file_db(self, audio_file):
+        try:
+            array, sr = audio_read(audio_file, sr=self.sample_rate, channels=1)
+            hashes = self.fingerprint_array(array)
+            matches = self.db.return_matches(hashes)
+            result = self.db.align_matches(matches)
+        except UnsupportedError:
+            result = None
+
+        matches = dict()
+        if result is not None:
+            station, time = result['song_name'].split('.')
+            matches[station] = {'hashes': [result['confidence']],
+                                'time': [time]}
+        return matches
+
+    def match_file_hash_table(self, audio_file):
         """
         Read file into numpy array, fingerprint to hashes and match from hash table
         """
@@ -45,8 +76,7 @@ class Connector(object):
             hashes = self.fingerprint_array(array)
             result = self.matcher.match_hashes(self.hash_tab, hashes)
         except UnsupportedError:
-            hashes = []
-            result = []           
+            result = []
 
         # The audio clip is likely spanning recordings so we will return multiple results with high score
         matches = dict()
@@ -67,12 +97,18 @@ class Connector(object):
         hashes = self.fingerprint_array(array)
         if self.verbose:
             print('ingested: %s, nhash: %d' % (store_name, len(hashes)))
-        self.hash_tab.store(store_name, hashes)
+        if self.using_hashtable:
+            self.hash_tab.store(store_name, hashes)
+        else:
+            self.db.store(store_name, hashes)
         return len(hashes)
 
     def ingest_file(self, audio_file, store_name):
         hashes = self.analyzer.wavfile2hashes(audio_file)
-        self.hash_tab.store(store_name, hashes)
+        if self.using_hashtable:
+            self.hash_tab.store(store_name, hashes)
+        else:
+            self.db.store(store_name, hashes)
 
         nhash = len(hashes)
         if self.verbose:
@@ -87,7 +123,6 @@ class Connector(object):
         return hash_tab
 
     def fingerprint_array(self, array):
-        # TODO what sr to pass to find_peaks. The real or target?
         peaks = self.analyzer.find_peaks(array, self.sample_rate)
         query_hashes = audfprint_analyze.landmarks2hashes(self.analyzer.peaks2landmarks(peaks))
         return sorted(list(set(query_hashes)))

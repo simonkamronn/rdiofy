@@ -174,7 +174,7 @@ class HashTable(object):
             hits[hitrows, 3] = time_
             nhits += nids
         # Discard the excess rows
-        hits.resize( (nhits, 4) )
+        hits.resize((nhits, 4))
         return hits
 
     def save(self, name, params=None):

@@ -348,6 +348,7 @@ Options:
   -J, --illustrate-hpf            Plot the match, using onset enhancement
   -W <dir>, --wavdir <dir>        Find sound files under this dir [default: ]
   -V <ext>, --wavext <ext>        Extension to add to wav file names [default: ]
+  -q, --hashtable                 Use hashtable or PostgreSQL database
   --version                       Report version number
   --help                          Print this message
 """

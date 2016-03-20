@@ -87,7 +87,7 @@ def landmarks2hashes(landmarks):
     return [(time_,
              (((bin1 & B1_MASK) << B1_SHIFT)
               | (((bin2 - bin1) & DF_MASK) << DF_SHIFT)
-              | (dtime & DT_MASK)))
+              | (dtime & DT_MASK)).astype('int'))
             for time_, bin1, bin2, dtime in landmarks]
 
 def hashes2landmarks(hashes):
@@ -269,7 +269,8 @@ class Analyzer(object):
 
         # masking envelope decay constant
         a_dec = (1.0 - 0.01*(self.density*np.sqrt(self.n_hop/352.8)/35.0)) \
-                **(1.0/OVERSAMP)
+            ** (1.0/OVERSAMP)
+
         # Take spectrogram
         mywin = np.hanning(self.n_fft+2)[1:-1]
         
@@ -298,6 +299,7 @@ class Analyzer(object):
         #         padding=0,
         #         save_settings=False,
         #     )
+
         sgrammax = np.max(sgram)
         if sgrammax > 0.0:
             sgram = np.log(np.maximum(sgram, np.max(sgram)/1e6))
@@ -321,7 +323,7 @@ class Analyzer(object):
         pklist = []
         for col in xrange(scols):
             for bin in np.nonzero(peaks[:, col])[0]:
-                pklist.append( (col, bin) )
+                pklist.append((col, bin))
         return pklist
 
     def peaks2landmarks(self, pklist):
@@ -353,8 +355,7 @@ class Analyzer(object):
                                     #and abs(peak2-peak) + abs(col2-col) > 2 ):
                                     if pairsthispeak < self.maxpairsperpeak:
                                         # We have a pair!
-                                        landmarks.append((col, peak,
-                                                          peak2, col2-col))
+                                        landmarks.append((col, peak, peak2, col2-col))
                                         pairsthispeak += 1
 
         return landmarks
