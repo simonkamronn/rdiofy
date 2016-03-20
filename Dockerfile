@@ -33,7 +33,8 @@ RUN pip install -v   \
   flask              \
   boto3              \
   pytz               \
-  gevent
+  gevent             \
+  postgres
 
 
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
