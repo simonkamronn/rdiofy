@@ -56,7 +56,7 @@ class PostgreSQLDB(object):
 
     def __init__(self, drop_tables=False):
         super(PostgreSQLDB, self).__init__()
-        self.db = Postgres(u"postgres://postgres:postgres@postgres/postgres")
+        self.db = Postgres(u"postgres://postgres:pervasivesounds@postgres/hashes")
         if drop_tables:
             self.db.run("DROP TABLE IF EXISTS %s CASCADE" % self.SONGS_TABLENAME)
             self.db.run("DROP TABLE IF EXISTS %s CASCADE" % self.FINGERPRINTS_TABLENAME)

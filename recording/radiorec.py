@@ -5,7 +5,6 @@ import requests
 from contextlib import closing
 from audfprint.audio_read import FFmpegAudioFile
 import numpy as np
-import wave
 SAMPLE_RATE = 8000
 CHUNK_SIZE = 1024
 
