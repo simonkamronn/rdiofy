@@ -33,7 +33,13 @@ RUN pip install -v   \
   flask              \
   boto3              \
   pytz               \
-  gevent             \
+  gevent
+
+RUN apt-get --force-yes -y install \
+  libpq-dev
+
+RUN pip install -v  \
+  psycopg2          \
   postgres
 
 
