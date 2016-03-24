@@ -42,7 +42,6 @@ RUN pip install -v  \
   psycopg2          \
   postgres
 
-
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
 RUN ln -s /usr/bin/avconv /usr/local/bin/ffmpeg
 
