@@ -144,7 +144,7 @@ def station_match():
         hash_count, station = 0, ''
 
     # Commit match to database
-    if hash_count > 0:
+    if hash_count > 4:
         # Generate unique id
         id = hashlib.md5(user_id + station + match_time).hexdigest()
     

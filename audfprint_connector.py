@@ -18,7 +18,7 @@ ARGV = ["new",
         "--continue-on-error", "True",
         "--sample_rate", "8000",
         "--max-matches", "5",
-        "--maxtime", "4096"]
+        "--maxtime", "8192"]
 ARGS = docopt.docopt(USAGE, version=1, argv=ARGV)
 
 
@@ -30,7 +30,7 @@ class Connector(object):
         self.args.shifts = 1
         self.analyzer = afp.setup_analyzer(self.args)
         # Setup matcher
-        self.args.shifts = 4
+        self.args.shifts = 1
         self.match_analyzer = afp.setup_analyzer(self.args)
         self.matcher = afp.setup_matcher(self.args)
         self.ncores = 1  # Not very CPU intensitive at this point
