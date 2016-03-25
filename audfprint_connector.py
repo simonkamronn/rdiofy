@@ -10,11 +10,11 @@ ARGV = ["new",
         "--verbose", "0",
         "--density", "70",
         "--fanout", "8",
-        "--bucketsize", "100",
+        "--bucketsize", "1",
         "--ncores", "1",
-        "--search-depth", "10",  # Number of ids for each hash to save
+        "--search-depth", "1",  # Number of ids for each hash to save
         "--min-count", "1",
-        "--hashbits", "20",  # Bits used to save hashes. Number of hashes to save = 2^hashbits
+        "--hashbits", "24",  # Bits used to save hashes. Number of hashes to save = 2^hashbits
         "--continue-on-error", "True",
         "--sample_rate", "8000",
         "--max-matches", "5",

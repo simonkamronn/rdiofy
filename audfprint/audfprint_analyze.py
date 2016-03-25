@@ -21,10 +21,10 @@ import time
 # For utility, glob2hashtable
 import hash_table
 
-from librosa import stft
-# from scipy.signal import spectrogram, lfilter
+# from librosa import stft
+from scipy.signal import spectrogram
 from scipy.signal import lfilter
-# import stft
+import stft
 
 import audio_read
 
@@ -69,8 +69,8 @@ HPF_POLE = 0.98
 
 # Globals defining packing of landmarks into hashes
 F1_BITS = 8
-DF_BITS = 6
-DT_BITS = 6
+DF_BITS = 8
+DT_BITS = 8
 # derived constants
 B1_MASK = (1 << F1_BITS) - 1
 B1_SHIFT = DF_BITS + DT_BITS
@@ -275,19 +275,19 @@ class Analyzer(object):
         mywin = np.hanning(self.n_fft+2)[1:-1]
         
         # Librosa
-        sgram = np.abs(stft(d, n_fft=self.n_fft,
-                            hop_length=self.n_hop,
-                            window=mywin))
+        # sgram = np.abs(stft(d, n_fft=self.n_fft,
+        #                     hop_length=self.n_hop,
+        #                     window=mywin))
         
         # Scipy Spectrogram        
-        # _, _, sgram = np.abs(spectrogram(d,
-        #                                  nfft=self.n_fft,
-        #                                  noverlap=(self.n_fft - self.n_hop),
-        #                                  nperseg=self.n_fft,
-        #                                  window=mywin,
-        #                                  return_onesided=True))
+        _, _, sgram = np.abs(spectrogram(d,
+                                         nfft=self.n_fft,
+                                         noverlap=(self.n_fft - self.n_hop),
+                                         nperseg=self.n_fft,
+                                         window=mywin,
+                                         return_onesided=True))
 
-        # This creates many more fingerprints. Maybe good, maybe bad
+        # Python stft package
         # sgram = stft.spectrogram(
         #         d,
         #         framelength=self.n_fft,
