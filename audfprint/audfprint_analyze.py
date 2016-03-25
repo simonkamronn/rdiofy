@@ -118,7 +118,7 @@ class Analyzer(object):
 
     def __init__(self, density=DENSITY):
         self.density = density
-        self.target_sr = 11025
+        self.target_sr = 8000
         self.n_fft = N_FFT
         self.n_hop = N_HOP
         self.shifts = 1

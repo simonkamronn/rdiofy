@@ -14,7 +14,7 @@ OFFSET_SECS = 'offset_seconds'
 FINGERPRINTS_TABLENAME = 'fingerprints'
 SONGS_TABLENAME = 'songs'
 COUNT_ROWS = "SELECT reltuples AS approximate_row_count FROM pg_class WHERE relname = '%s';"
-postgres_url = 'postgres-1.rdiofy.d1015430.cont.dockerapp.io:5432'
+postgres_url = '52.49.153.98:5432'
 
 db = Postgres(u"postgres://postgres:pervasivesounds@%s/hashes" % postgres_url)
 print("Number of hashes: %d" % db.one(COUNT_ROWS % FINGERPRINTS_TABLENAME))
