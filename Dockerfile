@@ -5,34 +5,31 @@ MAINTAINER Simon Kamronn <simon@kamronn.dk>
 RUN apt-get update
 
 RUN apt-get --force-yes -y install \
-  curl               \
-  libav-tools        \
-  libsndfile1        \
-  libsndfile-dev     \
-  python             \
-  python-dev         \
-  python-numpy       \
-  python-scipy       \
-  python-sympy       \
-  python-nose        \
-  python-setuptools  \
-  python-pip         \
-  git
-
-RUN pip install -v   \
-  docopt             \
-  joblib             \
-  flask              \
-  boto3              \
-  pytz               \
-  gevent
-
-RUN apt-get --force-yes -y install \
-  libpq-dev
+  curl              \
+  libav-tools       \
+  python            \
+  python-dev        \
+  python-numpy      \
+  python-sympy      \
+  python-nose       \
+  python-setuptools \
+  python-pip        \
+  git               \
+  libpq-dev         \
+  libblas-dev       \
+  liblapack-dev     \
+  gfortran
 
 RUN pip install -v  \
+  docopt            \
+  joblib            \
+  flask             \
+  boto3             \
+  pytz              \
+  gevent            \
   psycopg2          \
-  postgres
+  postgres          \
+  scipy
 
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
 RUN ln -s /usr/bin/avconv /usr/local/bin/ffmpeg
