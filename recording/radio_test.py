@@ -25,7 +25,7 @@ urls = []
 urls += ['http://localhost:5000/match/']
 #urls += ['http://192.168.99.100:8000/match/']
 # urls += ['http://46.101.141.191:8000/match/']
-urls += ['http://52.49.153.98:8000/match/']
+# urls += ['http://52.49.153.98:8000/match/']
 for url in urls:
     files = {'audio_file': open('radio_test.wav', 'rb')}
     response = requests.post(url, files=files, data={'recording_time': recording_time,

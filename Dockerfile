@@ -13,6 +13,8 @@ RUN apt-get --force-yes -y install \
   python-dev         \
   python-numpy       \
   python-scipy       \
+  python-sympy       \
+  python-nose        \
   python-setuptools  \
   python-pip         \
   git
@@ -31,9 +33,6 @@ RUN apt-get --force-yes -y install \
 RUN pip install -v  \
   psycopg2          \
   postgres
-
-RUN pip install --upgrade -v \
-  scipy
 
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
 RUN ln -s /usr/bin/avconv /usr/local/bin/ffmpeg
