@@ -197,21 +197,21 @@ if __name__ == '__main__':
     # Setup radio recording
     radio_stations = [
         {'name': 'P1',
-         'url': 'http://live-icy.gss.dr.dk/A/A03L.mp3'},
+         'url': 'http://live-icy.gss.dr.dk/A/A03H.mp3'},
         {'name': 'P2',
-         'url': 'http://live-icy.gss.dr.dk/A/A04L.mp3'},
+         'url': 'http://live-icy.gss.dr.dk/A/A04H.mp3'},
         {'name': 'P3',
-         'url': 'http://live-icy.gss.dr.dk/A/A05L.mp3'},
+         'url': 'http://live-icy.gss.dr.dk/A/A05H.mp3'},
         {'name': 'P4_Kobenhavn',
-         'url': 'http://live-icy.gss.dr.dk/A/A08L.mp3'},
+         'url': 'http://live-icy.gss.dr.dk/A/A08H.mp3'},
         {'name': 'P5',
-         'url': 'http://live-icy.gss.dr.dk/A/A25L.mp3'},
+         'url': 'http://live-icy.gss.dr.dk/A/A25H.mp3'},
         {'name': 'P6',
-         'url': 'http://live-icy.gss.dr.dk/A/A29L.mp3'},
+         'url': 'http://live-icy.gss.dr.dk/A/A29H.mp3'},
         {'name': 'P7',
-         'url': 'http://live-icy.gss.dr.dk/A/A21L.mp3'},
+         'url': 'http://live-icy.gss.dr.dk/A/A21H.mp3'},
         {'name': 'P8',
-         'url': 'http://live-icy.gss.dr.dk/A/A22L.mp3'}]
+         'url': 'http://live-icy.gss.dr.dk/A/A22H.mp3'}]
 
     # Define queues
     task_queue = Queue()

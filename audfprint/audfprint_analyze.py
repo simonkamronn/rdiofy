@@ -21,8 +21,8 @@ import time
 # For utility, glob2hashtable
 import hash_table
 
-# from librosa import stft
-from scipy.signal import spectrogram
+from librosa import stft
+# from scipy.signal import spectrogram
 from scipy.signal import lfilter
 # import stft
 
@@ -68,15 +68,16 @@ N_HOP = 256
 HPF_POLE = 0.98
 
 # Globals defining packing of landmarks into hashes
-F1_BITS = 8
-DF_BITS = 8
-DT_BITS = 8
+F1_BITS = 10
+DF_BITS = 10
+DT_BITS = 6
 # derived constants
 B1_MASK = (1 << F1_BITS) - 1
 B1_SHIFT = DF_BITS + DT_BITS
 DF_MASK = (1 << DF_BITS) - 1
 DF_SHIFT = DT_BITS
 DT_MASK = (1 << DT_BITS) - 1
+
 
 def landmarks2hashes(landmarks):
     """Convert a list of (time, bin1, bin2, dtime) landmarks
@@ -89,6 +90,7 @@ def landmarks2hashes(landmarks):
               | (((bin2 - bin1) & DF_MASK) << DF_SHIFT)
               | (dtime & DT_MASK)).astype('int'))
             for time_, bin1, bin2, dtime in landmarks]
+
 
 def hashes2landmarks(hashes):
     """Convert the mashed-up landmarks in hashes back into a list
@@ -275,17 +277,17 @@ class Analyzer(object):
         mywin = np.hanning(self.n_fft+2)[1:-1]
         
         # Librosa
-        # sgram = np.abs(stft(d, n_fft=self.n_fft,
-        #                     hop_length=self.n_hop,
-        #                     window=mywin))
+        sgram = np.abs(stft(d, n_fft=self.n_fft,
+                            hop_length=self.n_hop,
+                            window=mywin))
         
         # Scipy Spectrogram        
-        _, _, sgram = np.abs(spectrogram(d,
-                                         nfft=self.n_fft,
-                                         noverlap=(self.n_fft - self.n_hop),
-                                         nperseg=self.n_fft,
-                                         window=mywin,
-                                         return_onesided=True))
+        # _, _, sgram = np.abs(spectrogram(d,
+        #                                  nfft=self.n_fft,
+        #                                  noverlap=(self.n_fft - self.n_hop),
+        #                                  nperseg=self.n_fft,
+        #                                  window=mywin,
+        #                                  return_onesided=True))
 
         # Python stft package
         # sgram = stft.spectrogram(

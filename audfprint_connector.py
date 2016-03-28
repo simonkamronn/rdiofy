@@ -9,12 +9,12 @@ USAGE = afp.USAGE
 ARGV = ["new",
         "--verbose", "0",
         "--density", "70",
-        "--fanout", "8",
+        "--fanout", "15",
         "--bucketsize", "1",
         "--ncores", "1",
         "--search-depth", "1",  # Number of ids for each hash to save
         "--min-count", "1",
-        "--hashbits", "24",  # Bits used to save hashes. Number of hashes to save = 2^hashbits
+        "--hashbits", "26",  # Bits used to save hashes. Number of hashes to save = 2^hashbits
         "--continue-on-error", "True",
         "--sample_rate", "8000",
         "--max-matches", "5",
