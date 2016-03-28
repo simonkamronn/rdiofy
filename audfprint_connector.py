@@ -63,8 +63,12 @@ class Connector(object):
         matches = dict()
         if result is not None:
             station, time = result['song_name'].split('.')
-            matches[station] = {'hashes': [result['confidence']],
-                                'time': [time]}
+            if station not in matches.keys():
+                matches[station] = {'hashes': [result['confidence']],
+                                    'time': [time]}
+            else:
+                matches[station]['hashes'] += [result['confidence']]
+                matches[station]['time'] += [time]
         return matches
 
     def match_file_hash_table(self, audio_file):

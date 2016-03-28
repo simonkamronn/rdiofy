@@ -1,6 +1,7 @@
 from __future__ import print_function
 from postgres import Postgres
 from itertools import izip_longest
+import os
 
 
 class PostgreSQLDB(object):
@@ -56,8 +57,11 @@ class PostgreSQLDB(object):
 
     def __init__(self, drop_tables=False):
         super(PostgreSQLDB, self).__init__()
-        self.db = Postgres(u"postgres://postgres:atiG0lddng@localhost/postgres")
-        # self.db = Postgres(u"postgres://postgres:pervasivesounds@postgres/hashes")
+        if os.environ.get('DOCKERCLOUD_SERVICE_HOSTNAME', None) is not None:
+            self.db = Postgres(u"postgres://postgres:pervasivesounds@postgres/hashes")
+        else:
+            self.db = Postgres(u"postgres://postgres:atiG0lddng@localhost/postgres")
+
         if drop_tables:
             self.db.run("DROP TABLE IF EXISTS %s CASCADE" % self.SONGS_TABLENAME)
             self.db.run("DROP TABLE IF EXISTS %s CASCADE" % self.FINGERPRINTS_TABLENAME)
@@ -129,31 +133,32 @@ class PostgreSQLDB(object):
         song_id = -1
         for tup in matches:
             sid, diff = tup
-            if diff not in diff_counter:
-                diff_counter[diff] = {}
-            if sid not in diff_counter[diff]:
-                diff_counter[diff][sid] = 0
-            diff_counter[diff][sid] += 1
+            if sid not in diff_counter:
+                diff_counter[sid] = {}
+            if diff not in diff_counter[sid]:
+                diff_counter[sid][diff] = 0
+            diff_counter[sid][diff] += 1
 
-            if diff_counter[diff][sid] > largest_count:
+            if diff_counter[sid][diff] > largest_count:
                 largest = diff
-                largest_count = diff_counter[diff][sid]
+                largest_count = diff_counter[sid][diff]
                 song_id = sid
 
-        # extract idenfication
-        song = self.get_song_by_id(song_id)
-        if song:
-            songname = song
-        else:
-            return None
+        # total_count = {}
+        # for sid in diff_counter.keys():
+        #     total_count[sid] = np.sum(diff_counter[sid].values)
 
-        song = {
-            'song_id': song_id,
-            'song_name': songname,
-            'confidence': largest_count,
-            'offset': int(largest)
-        }
-        return song
+        songs = []
+        for sid in diff_counter.keys():
+            song_name = self.get_song_by_id(sid)
+            for diff in diff_counter[sid].keys():
+                songs.append({
+                    'song_id': song_id,
+                    'song_name': song_name,
+                    'confidence': diff_counter[sid][diff],
+                    'offset': diff
+                })
+        return songs
 
 
 def grouper(iterable, n, fillvalue=None):
