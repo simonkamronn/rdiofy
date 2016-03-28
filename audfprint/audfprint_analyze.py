@@ -21,8 +21,8 @@ import time
 # For utility, glob2hashtable
 import hash_table
 
-from librosa import stft
-# from scipy.signal import spectrogram
+# from librosa import stft
+from scipy.signal import spectrogram
 from scipy.signal import lfilter
 # import stft
 
@@ -277,17 +277,17 @@ class Analyzer(object):
         mywin = np.hanning(self.n_fft+2)[1:-1]
         
         # Librosa
-        sgram = np.abs(stft(d, n_fft=self.n_fft,
-                            hop_length=self.n_hop,
-                            window=mywin))
+        # sgram = np.abs(stft(d, n_fft=self.n_fft,
+        #                     hop_length=self.n_hop,
+        #                     window=mywin))
         
         # Scipy Spectrogram        
-        # _, _, sgram = np.abs(spectrogram(d,
-        #                                  nfft=self.n_fft,
-        #                                  noverlap=(self.n_fft - self.n_hop),
-        #                                  nperseg=self.n_fft,
-        #                                  window=mywin,
-        #                                  return_onesided=True))
+        _, _, sgram = np.abs(spectrogram(d,
+                                         nfft=self.n_fft,
+                                         noverlap=(self.n_fft - self.n_hop),
+                                         nperseg=self.n_fft,
+                                         window=mywin,
+                                         return_onesided=True))
 
         # Python stft package
         # sgram = stft.spectrogram(
