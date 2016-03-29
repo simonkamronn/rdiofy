@@ -56,19 +56,20 @@ class Connector(object):
             array, sr = audio_read(audio_file, sr=self.sample_rate, channels=1)
             hashes = self.fingerprint_array(array)
             matches = self.db.return_matches(hashes)
-            result = self.db.align_matches(matches)
+            results = self.db.align_matches(matches)
         except UnsupportedError:
-            result = None
+            results = None
 
         matches = dict()
-        if result is not None:
-            station, time = result['song_name'].split('.')
-            if station not in matches.keys():
-                matches[station] = {'hashes': [result['confidence']],
-                                    'time': [time]}
-            else:
-                matches[station]['hashes'] += [result['confidence']]
-                matches[station]['time'] += [time]
+        if results is not None:
+            for result in results:
+                station, time = result['song_name'].split('.')
+                if station not in matches.keys():
+                    matches[station] = {'hashes': [result['confidence']],
+                                        'time': [time]}
+                else:
+                    matches[station]['hashes'] += [result['confidence']]
+                    matches[station]['time'] += [time]
         return matches
 
     def match_file_hash_table(self, audio_file):

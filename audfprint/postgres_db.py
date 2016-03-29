@@ -152,12 +152,14 @@ class PostgreSQLDB(object):
         for sid in diff_counter.keys():
             song_name = self.get_song_by_id(sid)
             for diff in diff_counter[sid].keys():
-                songs.append({
-                    'song_id': song_id,
-                    'song_name': song_name,
-                    'confidence': diff_counter[sid][diff],
-                    'offset': diff
-                })
+                confidence = diff_counter[sid][diff]
+                if confidence > 4:
+                    songs.append({
+                        'song_id': song_id,
+                        'song_name': song_name,
+                        'confidence': confidence,
+                        'offset': diff
+                    })
         return songs
 
 
