@@ -14,7 +14,7 @@ import numpy as np
 # import contextlib
 import hashlib
 import json
-from gevent.wsgi import WSGIServer
+from gevent.pywsgi import WSGIServer
 
 dt_format = '%Y-%m-%d %H:%M:%S'
 logging.basicConfig()
@@ -192,6 +192,11 @@ def match_answer():
     app.logger.info("answer: %s" % answer)
     return 'OK'
     
+
+@app.route('/', methods=['GET'])
+def hello():
+    return 'Hello'
+
 
 if __name__ == '__main__':
     # Setup radio recording

@@ -39,8 +39,6 @@ WORKDIR /opt/rdiofy/
 RUN mkdir new_recordings
 RUN mv .aws /root/
 
-EXPOSE 5000
-
 CMD python app.py
 
 ####
