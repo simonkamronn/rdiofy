@@ -99,7 +99,7 @@ def record_stream(radio_station, queue):
             idx += 1
             y.append(buf)
 
-            if idx > 323:  # About 120 seconds 120*11025 / 4096
+            if idx > 100:
                 queue.put(('ingest', (y, station)))
                 y = []
                 idx = 0

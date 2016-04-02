@@ -42,7 +42,7 @@ class Connector(object):
             self.hash_tab = self.new_hashtable()
             print("Using Numpy hashtable")
         else:
-            self.db = PostgreSQLDB(drop_tables=True)
+            self.db = PostgreSQLDB(drop_tables=False)
             print("Using PostgreSQL database")
 
     def match_file(self, audio_file):
@@ -56,7 +56,11 @@ class Connector(object):
             array, sr = audio_read(audio_file, sr=self.sample_rate, channels=1)
             hashes = self.fingerprint_array(array)
             matches = self.db.return_matches(hashes)
-            results = self.db.align_matches(matches)
+            if len(matches) > 0:
+                best_sids = self.db.get_best_sids(matches)
+                results = self.db.align_matches(matches, best_sids)
+            else:
+                results = []
         except UnsupportedError:
             results = None
 

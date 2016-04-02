@@ -270,8 +270,7 @@ class Analyzer(object):
             return []
 
         # masking envelope decay constant
-        a_dec = (1.0 - 0.01*(self.density*np.sqrt(self.n_hop/352.8)/35.0)) \
-            ** (1.0/OVERSAMP)
+        a_dec = (1.0 - 0.01*(self.density*np.sqrt(self.n_hop/352.8)/35.0)) ** (1.0/OVERSAMP)
 
         # Take spectrogram
         mywin = np.hanning(self.n_fft+2)[1:-1]
@@ -349,8 +348,7 @@ class Analyzer(object):
             for col in xrange(scols):
                 for peak in peaks_at[col]:
                     pairsthispeak = 0
-                    for col2 in xrange(col+self.mindt,
-                                       min(scols, col+self.targetdt)):
+                    for col2 in xrange(col+self.mindt, min(scols, col+self.targetdt)):
                         if pairsthispeak < self.maxpairsperpeak:
                             for peak2 in peaks_at[col2]:
                                 if abs(peak2-peak) < self.targetdf:

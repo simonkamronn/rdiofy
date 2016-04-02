@@ -107,9 +107,7 @@ class Matcher(object):
         bestcountsixs = np.argsort(wtdcounts)[::-1]
         # We will examine however many hits have rawcounts above threshold
         # up to a maximum of search_depth.
-        maxdepth = np.minimum(np.count_nonzero(np.greater(rawcounts,
-                                                          self.threshcount)),
-                              self.search_depth)
+        maxdepth = np.minimum(np.count_nonzero(np.greater(rawcounts, self.threshcount)), self.search_depth)
         # Return the ids to check
         bestcountsixs = bestcountsixs[:maxdepth]
         return ids[bestcountsixs], rawcounts[bestcountsixs]
@@ -182,8 +180,7 @@ class Matcher(object):
                         maxnresults *= 2
                         results.resize((maxnresults, 5))
                     if self.find_time_range:
-                        min_time, max_time = self._calculate_time_ranges(
-                            hits, id, mode)
+                        min_time, max_time = self._calculate_time_ranges(hits, id, mode)
                     results[nresults, :] = [id, filtcount, mode, rawcount,
                                             urank, min_time, max_time]
                     nresults += 1

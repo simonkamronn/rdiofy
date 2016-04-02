@@ -10,8 +10,8 @@ from multiprocessing import Process, Queue
 from Queue import Empty
 from audfprint.audio_read import buf_to_float
 import numpy as np
-# import wave
-# import contextlib
+import wave
+import contextlib
 import hashlib
 import json
 from gevent.pywsgi import WSGIServer
@@ -63,14 +63,14 @@ def consumer(task_queue, result_queue):
             array, station = data
             cur_dt = datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)
 
-            # # Save to file
-            # file_name = 'recordings/%s_%s.wav' % (station, cur_dt.replace(':', ''))
-            # with contextlib.closing(wave.open(file_name, 'w')) as of:
-            #     of.setframerate(afp.sample_rate)
-            #     of.setnchannels(1)
-            #     of.setsampwidth(2)
-            #     for buf in array:
-            #         of.writeframes(buf)
+            # Save to file
+            file_name = 'recordings/%s_%s.wav' % (station, cur_dt.replace(':', ''))
+            with contextlib.closing(wave.open(file_name, 'w')) as of:
+                of.setframerate(afp.sample_rate)
+                of.setnchannels(1)
+                of.setsampwidth(2)
+                for buf in array:
+                    of.writeframes(buf)
 
             # Convert array
             array = np.ascontiguousarray(np.concatenate(
@@ -130,9 +130,6 @@ def station_match():
         request.files.get('audio_file').save(tmp_file)
     except AttributeError:
         app.logger.info("No file attached")
-        
-    # Wait a few second for the file to be saved
-    time.sleep(5)
 
     # Pass task to task queue
     task_queue.put(('match', tmp_file))

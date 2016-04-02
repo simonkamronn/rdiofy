@@ -2,7 +2,7 @@ from __future__ import print_function
 from postgres import Postgres
 from itertools import izip_longest
 import os
-
+import numpy as np
 
 class PostgreSQLDB(object):
     FIELD_SONG_ID = 'song_id'
@@ -61,6 +61,7 @@ class PostgreSQLDB(object):
             self.db = Postgres(u"postgres://postgres:pervasivesounds@postgres/hashes")
         else:
             self.db = Postgres(u"postgres://postgres:atiG0lddng@localhost/postgres")
+            # self.db = Postgres(u"postgres://postgres:pervasivesounds@52.49.153.98/hashes")
 
         if drop_tables:
             self.db.run("DROP TABLE IF EXISTS %s CASCADE" % self.SONGS_TABLENAME)
@@ -113,13 +114,13 @@ class PostgreSQLDB(object):
                 query %= ', '.join(["%s"] * len(split_values))
 
                 res = self.db.all(query, split_values, back_as=tuple)
-                for (hash, sid, offset) in res:
-                    yield(sid, offset - mapper[hash])
+                return np.asarray([(sid, offset - mapper[hash]) for (hash, sid, offset) in res])
 
-    def get_hits(self, hashes):
-        return self.return_matches(hashes)
+    def get_best_sids(self, matches):
+        unique, counts = np.unique(matches[:, 0], return_counts=True)
+        return unique[np.argsort(counts)[::-1][:np.minimum(len(counts), 20)]]
 
-    def align_matches(self, matches):
+    def align_matches(self, matches, sids):
         """
             Finds hash matches that align in time with other matches and finds
             consensus about which hashes are "true" signal from the audio.
@@ -131,18 +132,18 @@ class PostgreSQLDB(object):
         largest = 0
         largest_count = 0
         song_id = -1
-        for tup in matches:
-            sid, diff = tup
-            if sid not in diff_counter:
-                diff_counter[sid] = {}
-            if diff not in diff_counter[sid]:
-                diff_counter[sid][diff] = 0
-            diff_counter[sid][diff] += 1
+        for sid in sids:
+            for sid, diff in matches[matches[:, 0] == sid]:
+                if sid not in diff_counter:
+                    diff_counter[sid] = {}
+                if diff not in diff_counter[sid]:
+                    diff_counter[sid][diff] = 0
+                diff_counter[sid][diff] += 1
 
-            if diff_counter[sid][diff] > largest_count:
-                largest = diff
-                largest_count = diff_counter[sid][diff]
-                song_id = sid
+                if diff_counter[sid][diff] > largest_count:
+                    largest = diff
+                    largest_count = diff_counter[sid][diff]
+                    song_id = sid
 
         # total_count = {}
         # for sid in diff_counter.keys():
@@ -161,7 +162,6 @@ class PostgreSQLDB(object):
                         'offset': diff
                     })
         return songs
-
 
 def grouper(iterable, n, fillvalue=None):
     args = [iter(iterable)] * n
