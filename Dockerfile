@@ -36,16 +36,7 @@ RUN ln -s /usr/bin/avconv /usr/local/bin/ffmpeg
 
 COPY ./ /opt/rdiofy/
 WORKDIR /opt/rdiofy/
-RUN mkdir new_recordings
+RUN mkdir recordings
 RUN mv .aws /root/
 
 CMD python app.py
-
-####
-## audfprint 0.9
-## @see https://github.com/dpwe/audfprint
-####
-# RUN curl -LSs https://github.com/hinata/audfprint/archive/0.9.0.tar.gz | tar fxz - -C /usr/local/lib
-# RUN git clone https://github.com/dpwe/audfprint.git
-# RUN chmod +x /usr/local/lib/audfprint-0.9.0/audfprint.py
-# RUN ln -s    /usr/local/lib/audfprint-0.9.0/audfprint.py /usr/bin/audfprint

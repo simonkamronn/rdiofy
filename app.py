@@ -63,14 +63,14 @@ def consumer(task_queue, result_queue):
             array, station = data
             cur_dt = datetime.now(pytz.timezone('Europe/Copenhagen')).strftime(dt_format)
 
-            # Save to file
-            file_name = 'recordings/%s_%s.wav' % (station, cur_dt.replace(':', ''))
-            with contextlib.closing(wave.open(file_name, 'w')) as of:
-                of.setframerate(afp.sample_rate)
-                of.setnchannels(1)
-                of.setsampwidth(2)
-                for buf in array:
-                    of.writeframes(buf)
+            # # Save to file
+            # file_name = 'recordings/%s_%s.wav' % (station, cur_dt.replace(':', ''))
+            # with contextlib.closing(wave.open(file_name, 'w')) as of:
+            #     of.setframerate(afp.sample_rate)
+            #     of.setnchannels(1)
+            #     of.setsampwidth(2)
+            #     for buf in array:
+            #         of.writeframes(buf)
 
             # Convert array
             array = np.ascontiguousarray(np.concatenate(
