@@ -57,6 +57,7 @@ class Connector(object):
             hashes = self.fingerprint_array(array)
             matches = self.db.return_matches(hashes)
             if len(matches) > 0:
+                print("Number of hashes: %d\nNumber of matches: %d" % (len(hashes), len(matches)))
                 best_sids = self.db.get_best_sids(matches)
                 results = self.db.align_matches(matches, best_sids)
             else:
