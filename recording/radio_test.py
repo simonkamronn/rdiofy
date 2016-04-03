@@ -22,10 +22,10 @@ with contextlib.closing(wave.open('radio_test.wav', 'w')) as of:
 time.sleep(30)
 
 urls = []
-urls += ['http://localhost:5000/match/']
+# urls += ['http://localhost:5000/match/']
 # urls += ['http://192.168.99.100:8000/match/']
 # urls += ['http://46.101.141.191:8000/match/']
-# urls += ['http://52.49.153.98/match/']
+urls += ['http://52.49.153.98/match/']
 # urls += ['http://haproxy-37b70783-1.rdiofy.23f18f02.cont.dockerapp.io/match/']
 for url in urls:
     files = {'audio_file': open('radio_test.wav', 'rb')}

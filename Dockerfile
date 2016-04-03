@@ -9,8 +9,6 @@ RUN apt-get --force-yes -y install \
   libav-tools       \
   python            \
   python-dev        \
-  python-numpy      \
-  python-sympy      \
   python-nose       \
   python-setuptools \
   python-pip        \
@@ -29,8 +27,9 @@ RUN pip install -v  \
   gevent            \
   psycopg2          \
   postgres          \
+  numpy			\
   scipy
-
+  
 RUN ln -s /usr/bin/avconv /usr/local/bin/avconv
 RUN ln -s /usr/bin/avconv /usr/local/bin/ffmpeg
 
