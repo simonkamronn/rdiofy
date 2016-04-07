@@ -19,14 +19,14 @@ import glob
 import time
 
 # For utility, glob2hashtable
-import hash_table
+from . import hash_table
 
 # from librosa import stft
 from scipy.signal import spectrogram
 from scipy.signal import lfilter
 # import stft
 
-import audio_read
+from . import audio_read
 
 ################ Globals ################
 # Special extension indicating precomputed fingerprint
@@ -322,7 +322,7 @@ class Analyzer(object):
         # build a list of peaks we ended up with
         scols = np.shape(sgram)[1]
         pklist = []
-        for col in xrange(scols):
+        for col in range(scols):
             for bin in np.nonzero(peaks[:, col])[0]:
                 pklist.append((col, bin))
         return pklist
@@ -340,18 +340,18 @@ class Analyzer(object):
             # Find column of the final peak in the list
             scols = pklist[-1][0] + 1
             # Convert (col, bin) list into peaks_at[col] lists
-            peaks_at = [[] for col in xrange(scols)]
+            peaks_at = [[] for col in range(scols)]
             for (col, bin) in pklist:
                 peaks_at[col].append(bin)
 
             # Build list of landmarks <starttime F1 endtime F2>
-            for col in xrange(scols):
+            for col in range(scols):
                 for peak in peaks_at[col]:
                     pairsthispeak = 0
-                    for col2 in xrange(col+self.mindt, min(scols, col+self.targetdt)):
+                    for col2 in range(col+self.mindt, min(scols, col+self.targetdt)):
                         if pairsthispeak < self.maxpairsperpeak:
                             for peak2 in peaks_at[col2]:
-                                if abs(peak2-peak) < self.targetdf:
+                                if abs(peak2 - peak) < self.targetdf:
                                     #and abs(peak2-peak) + abs(col2-col) > 2 ):
                                     if pairsthispeak < self.maxpairsperpeak:
                                         # We have a pair!

@@ -21,11 +21,11 @@ import multiprocessing  # for new/add
 import joblib           # for match
 
 # The actual analyzer class/code
-import audfprint_analyze
+from . import audfprint_analyze
 # My hash_table implementation
-import hash_table
+from . import hash_table
 # Access to match functions, used in command line interface
-import audfprint_match
+from . import audfprint_match
 
 def filename_list_iterator(filelist, wavdir, wavext, listflag):
     """ Iterator to yeild all the filenames, possibly interpreting them

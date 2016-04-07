@@ -3,6 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="98e40ca9-6543-467c-a563-76121db08564" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/audfprint/audfprint.py" afterPath="$PROJECT_DIR$/audfprint/audfprint.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/audfprint/audfprint_analyze.py" afterPath="$PROJECT_DIR$/audfprint/audfprint_analyze.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/audfprint/audfprint_match.py" afterPath="$PROJECT_DIR$/audfprint/audfprint_match.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/audfprint/hash_table.py" afterPath="$PROJECT_DIR$/audfprint/hash_table.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/audfprint/postgres_db.py" afterPath="$PROJECT_DIR$/audfprint/postgres_db.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/recording/radio_test.py" afterPath="$PROJECT_DIR$/recording/radio_test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/recording/radiorec.py" afterPath="$PROJECT_DIR$/recording/radiorec.py" />
     </list>
     <ignored path="audfprint-server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -16,9 +24,11 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/audfprint-server$app.coverage" NAME="app Coverage Results" MODIFIED="1459681746125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/audfprint-server$test_db.coverage" NAME="test_db Coverage Results" MODIFIED="1459632209163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/audfprint-server$radio_test.coverage" NAME="radio_test Coverage Results" MODIFIED="1460064548330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/recording" />
+    <SUITE FILE_PATH="coverage/audfprint-server$app.coverage" NAME="app Coverage Results" MODIFIED="1460064295670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/audfprint-server$audfprint_connector.coverage" NAME="audfprint_connector Coverage Results" MODIFIED="1459631409909" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/audfprint-server$postgres_rows.coverage" NAME="postgres_rows Coverage Results" MODIFIED="1460058491510" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -33,6 +43,10 @@
       <PATH_ELEMENT>
         <option name="myItemId" />
         <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PostgreSQL - hashes@52.49.153.98" />
+        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
       </PATH_ELEMENT>
     </PATH>
     <PATH>
@@ -49,16 +63,6 @@
         <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$GroupNode" />
       </PATH_ELEMENT>
     </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" />
-        <option name="myItemType" value="com.intellij.database.view.DatabaseStructure$Root" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PostgreSQL - hashes@52.49.153.98" />
-        <option name="myItemType" value="com.intellij.database.view.DbNodeDescriptor" />
-      </PATH_ELEMENT>
-    </PATH>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -69,10 +73,41 @@
       <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="62" column="33" selection-start-line="62" selection-start-column="33" selection-end-line="62" selection-end-column="33" />
+            <state relative-caret-position="465">
+              <caret line="159" column="39" selection-start-line="159" selection-start-column="39" selection-end-line="159" selection-end-column="39" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="audfprint.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/audfprint/audfprint.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="263">
+              <caret line="27" column="7" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="postgres_db.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/audfprint/postgres_db.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+                <marker date="1460064558994" expanded="true" signature="601:741" placeholder="CREATE TABLE... missing_value" />
+                <marker date="1460064558994" expanded="true" signature="874:992" placeholder="CREATE TABLE... missing_value" />
+                <marker date="1460064558994" expanded="true" signature="1080:1112" placeholder="SELECT missi... missing_value" />
+                <marker date="1460064558994" expanded="true" signature="1273:1435" placeholder="INSERT INTO missing_value... " />
+                <marker date="1460064558994" expanded="true" signature="1569:1601" placeholder="INSERT INTO missing_value... " />
+                <marker date="1460064558994" expanded="true" signature="1666:1709" placeholder="SELECT missi... missing_value" />
+                <marker date="1460064558994" expanded="true" signature="2338:2369" placeholder="DROP TABLE I... " />
+                <marker date="1460064558994" expanded="true" signature="2420:2451" placeholder="DROP TABLE I... " />
+                <marker date="1460064558994" expanded="true" signature="3355:3397" placeholder="SELECT missi... missing_value" />
               </folding>
             </state>
           </provider>
@@ -81,31 +116,10 @@
       <file leaf-file-name="audfprint_connector.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/audfprint_connector.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="57" column="52" selection-start-line="57" selection-start-column="52" selection-end-line="57" selection-end-column="52" />
+            <state relative-caret-position="180">
+              <caret line="60" column="23" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
               <folding>
                 <element signature="e#0#33#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="postgres_db.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/audfprint/postgres_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#37#0" expanded="true" />
-                <marker date="1459629369381" expanded="true" signature="602:742" placeholder="CREATE TABLE... missing_value" />
-                <marker date="1459629369381" expanded="true" signature="875:993" placeholder="CREATE TABLE... missing_value" />
-                <marker date="1459629369381" expanded="true" signature="1081:1113" placeholder="SELECT missi... missing_value" />
-                <marker date="1459629369381" expanded="true" signature="1274:1436" placeholder="INSERT INTO missing_value... " />
-                <marker date="1459629369381" expanded="true" signature="1570:1602" placeholder="INSERT INTO missing_value... " />
-                <marker date="1459629369381" expanded="true" signature="1667:1710" placeholder="SELECT missi... missing_value" />
-                <marker date="1459629369381" expanded="true" signature="2339:2370" placeholder="DROP TABLE I... " />
-                <marker date="1459629369381" expanded="true" signature="2421:2452" placeholder="DROP TABLE I... " />
-                <marker date="1459629369381" expanded="true" signature="3367:3409" placeholder="SELECT missi... missing_value" />
               </folding>
             </state>
           </provider>
@@ -114,10 +128,22 @@
       <file leaf-file-name="radio_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/recording/radio_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
+            <state relative-caret-position="315">
+              <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test_db.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_db.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -126,20 +152,10 @@
       <file leaf-file-name="radiorec.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/recording/radiorec.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="10" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test_db.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="55" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
+            <state relative-caret-position="-95">
+              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
               <folding>
-                <element signature="e#0#41#0" expanded="true" />
+                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -148,18 +164,18 @@
       <file leaf-file-name="audfprint_match.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/audfprint/audfprint_match.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="268" column="42" selection-start-line="268" selection-start-column="42" selection-end-line="268" selection-end-column="42" />
+            <state relative-caret-position="445">
+              <caret line="420" column="38" selection-start-line="420" selection-start-column="38" selection-end-line="420" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="audfprint_analyze.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="audfprint_analyze.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/audfprint/audfprint_analyze.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35172415">
-              <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
+            <state relative-caret-position="5025">
+              <caret line="338" column="27" selection-start-line="338" selection-start-column="27" selection-end-line="338" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -173,15 +189,17 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/recording/radiorec.py" />
-        <option value="$PROJECT_DIR$/audfprint/audfprint_match.py" />
-        <option value="$PROJECT_DIR$/audfprint/postgres_db.py" />
-        <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/test_db.py" />
-        <option value="$PROJECT_DIR$/audfprint/audfprint_analyze.py" />
-        <option value="$PROJECT_DIR$/recording/radio_test.py" />
-        <option value="$PROJECT_DIR$/audfprint_connector.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/audfprint/audfprint.py" />
+        <option value="$PROJECT_DIR$/audfprint/audfprint_match.py" />
+        <option value="$PROJECT_DIR$/recording/radiorec.py" />
+        <option value="$PROJECT_DIR$/audfprint/audfprint_analyze.py" />
+        <option value="$PROJECT_DIR$/audfprint_connector.py" />
+        <option value="$PROJECT_DIR$/recording/radio_test.py" />
+        <option value="$PROJECT_DIR$/audfprint/hash_table.py" />
+        <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/audfprint/postgres_db.py" />
       </list>
     </option>
   </component>
@@ -191,10 +209,29 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1176" />
+    <option name="x" value="65" />
+    <option name="y" value="24" />
+    <option name="width" value="1855" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Python</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>PyCompatibilityInspection</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -255,12 +292,16 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -322,15 +363,40 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="BashConfigurationType" factoryName="Bash">
+    <configuration default="false" name="radio_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="INTERPRETER_PATH" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/recording" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="audfprint-server" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/recording/radio_test.py" />
       <option name="PARAMETERS" value="" />
-      <module name="" />
-      <envs />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="postgres_rows" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="audfprint-server" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/postgres_rows.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
@@ -402,7 +468,21 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <module name="audfprint-server" />
+      <method />
+    </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
       <node-options />
       <gulpfile />
       <tasks />
@@ -413,6 +493,7 @@
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
       <command value="run-script" />
       <scripts />
+      <node-interpreter value="project" />
       <envs />
       <method />
     </configuration>
@@ -526,20 +607,26 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
-    <list size="3">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.app" />
       <item index="1" class="java.lang.String" itemvalue="Python.test_db" />
       <item index="2" class="java.lang.String" itemvalue="Python.audfprint_connector" />
+      <item index="3" class="java.lang.String" itemvalue="Python.radio_test" />
+      <item index="4" class="java.lang.String" itemvalue="Python.postgres_rows" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Python.app" />
-        <item index="1" class="java.lang.String" itemvalue="Python.test_db" />
-        <item index="2" class="java.lang.String" itemvalue="Python.audfprint_connector" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.radio_test" />
+        <item index="1" class="java.lang.String" itemvalue="Python.app" />
+        <item index="2" class="java.lang.String" itemvalue="Python.postgres_rows" />
+        <item index="3" class="java.lang.String" itemvalue="Python.test_db" />
+        <item index="4" class="java.lang.String" itemvalue="Python.audfprint_connector" />
       </list>
     </recent_temporary>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -548,29 +635,34 @@
       <changelist id="98e40ca9-6543-467c-a563-76121db08564" name="Default" comment="" />
       <created>1459279585739</created>
       <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
       <updated>1459279585739</updated>
     </task>
     <task id="LOCAL-00001" summary="Added loop over list">
       <created>1459282128670</created>
       <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
       <updated>1459282128670</updated>
     </task>
     <task id="LOCAL-00002" summary="Only use the top 20 song ids">
       <created>1459632776468</created>
       <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
       <updated>1459632776468</updated>
     </task>
     <task id="LOCAL-00003" summary="Print">
       <created>1459681770713</created>
       <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
       <updated>1459681770713</updated>
     </task>
     <task id="LOCAL-00004" summary="Update git ignore">
       <created>1459681801166</created>
       <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
       <updated>1459681801166</updated>
     </task>
@@ -578,28 +670,28 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
-    <editor active="false" />
+    <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18710022" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19181868" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25692964" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3726977" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2631288" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.371875" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4182015" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35729167" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997833" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3489933" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3997833" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -629,48 +721,9 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="62" column="33" selection-start-line="62" selection-start-column="33" selection-end-line="62" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/audfprint_connector.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="52" selection-start-line="57" selection-start-column="52" selection-end-line="57" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/audfprint/postgres_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-            <marker date="1459629369381" expanded="true" signature="602:742" placeholder="CREATE TABLE... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="875:993" placeholder="CREATE TABLE... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="1081:1113" placeholder="SELECT missi... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="1274:1436" placeholder="INSERT INTO missing_value... " />
-            <marker date="1459629369381" expanded="true" signature="1570:1602" placeholder="INSERT INTO missing_value... " />
-            <marker date="1459629369381" expanded="true" signature="1667:1710" placeholder="SELECT missi... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="2339:2370" placeholder="DROP TABLE I... " />
-            <marker date="1459629369381" expanded="true" signature="2421:2452" placeholder="DROP TABLE I... " />
-            <marker date="1459629369381" expanded="true" signature="3367:3409" placeholder="SELECT missi... missing_value" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/recording/radio_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="45">
           <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
@@ -680,15 +733,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/recording/radiorec.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="30">
           <caret line="8" column="10" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="10" />
-          <folding />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="135">
           <caret line="12" column="55" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
@@ -698,7 +753,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint/audfprint_match.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="4020">
           <caret line="268" column="42" selection-start-line="268" selection-start-column="42" selection-end-line="268" selection-end-column="42" />
           <folding />
         </state>
@@ -706,7 +761,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint/audfprint_analyze.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -714,7 +769,92 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
+          <caret line="62" column="33" selection-start-line="62" selection-start-column="33" selection-end-line="62" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/audfprint_connector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="57" column="52" selection-start-line="57" selection-start-column="52" selection-end-line="57" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/audfprint/postgres_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <marker date="1460064558994" expanded="true" signature="601:741" placeholder="CREATE TABLE... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="874:992" placeholder="CREATE TABLE... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="1080:1112" placeholder="SELECT missi... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="1273:1435" placeholder="INSERT INTO missing_value... " />
+            <marker date="1460064558994" expanded="true" signature="1569:1601" placeholder="INSERT INTO missing_value... " />
+            <marker date="1460064558994" expanded="true" signature="1666:1709" placeholder="SELECT missi... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="2338:2369" placeholder="DROP TABLE I... " />
+            <marker date="1460064558994" expanded="true" signature="2420:2451" placeholder="DROP TABLE I... " />
+            <marker date="1460064558994" expanded="true" signature="3355:3397" placeholder="SELECT missi... missing_value" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/recording/radio_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/recording/radiorec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="8" column="10" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="12" column="55" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/audfprint/audfprint_match.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="268" column="42" selection-start-line="268" selection-start-column="42" selection-end-line="268" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/audfprint/audfprint_analyze.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
           <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="72" selection-end-column="39" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
@@ -724,26 +864,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint/postgres_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <marker date="1459629369381" expanded="true" signature="602:742" placeholder="CREATE TABLE... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="875:993" placeholder="CREATE TABLE... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="1081:1113" placeholder="SELECT missi... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="1274:1436" placeholder="INSERT INTO missing_value... " />
-            <marker date="1459629369381" expanded="true" signature="1570:1602" placeholder="INSERT INTO missing_value... " />
-            <marker date="1459629369381" expanded="true" signature="1667:1710" placeholder="SELECT missi... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="2339:2370" placeholder="DROP TABLE I... " />
-            <marker date="1459629369381" expanded="true" signature="2421:2452" placeholder="DROP TABLE I... " />
-            <marker date="1459629369381" expanded="true" signature="3367:3409" placeholder="SELECT missi... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="601:741" placeholder="CREATE TABLE... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="874:992" placeholder="CREATE TABLE... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="1080:1112" placeholder="SELECT missi... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="1273:1435" placeholder="INSERT INTO missing_value... " />
+            <marker date="1460064558994" expanded="true" signature="1569:1601" placeholder="INSERT INTO missing_value... " />
+            <marker date="1460064558994" expanded="true" signature="1666:1709" placeholder="SELECT missi... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="2338:2369" placeholder="DROP TABLE I... " />
+            <marker date="1460064558994" expanded="true" signature="2420:2451" placeholder="DROP TABLE I... " />
+            <marker date="1460064558994" expanded="true" signature="3355:3397" placeholder="SELECT missi... missing_value" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint_connector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="135" column="77" selection-start-line="135" selection-start-column="77" selection-end-line="135" selection-end-column="77" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
@@ -753,7 +893,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/recording/radio_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="12" column="39" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
@@ -763,15 +903,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/recording/radiorec.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="8" column="10" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="10" />
-          <folding />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="12" column="55" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
@@ -781,7 +923,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint/audfprint_match.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="268" column="42" selection-start-line="268" selection-start-column="42" selection-end-line="268" selection-end-column="42" />
           <folding />
         </state>
@@ -789,7 +931,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint/audfprint_analyze.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -797,7 +939,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
@@ -807,26 +949,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint/postgres_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="150" column="0" selection-start-line="150" selection-start-column="0" selection-end-line="150" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <marker date="1459629369381" expanded="true" signature="602:742" placeholder="CREATE TABLE... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="875:993" placeholder="CREATE TABLE... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="1081:1113" placeholder="SELECT missi... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="1274:1436" placeholder="INSERT INTO missing_value... " />
-            <marker date="1459629369381" expanded="true" signature="1570:1602" placeholder="INSERT INTO missing_value... " />
-            <marker date="1459629369381" expanded="true" signature="1667:1710" placeholder="SELECT missi... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="2339:2370" placeholder="DROP TABLE I... " />
-            <marker date="1459629369381" expanded="true" signature="2421:2452" placeholder="DROP TABLE I... " />
-            <marker date="1459629369381" expanded="true" signature="3367:3409" placeholder="SELECT missi... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="601:741" placeholder="CREATE TABLE... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="874:992" placeholder="CREATE TABLE... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="1080:1112" placeholder="SELECT missi... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="1273:1435" placeholder="INSERT INTO missing_value... " />
+            <marker date="1460064558994" expanded="true" signature="1569:1601" placeholder="INSERT INTO missing_value... " />
+            <marker date="1460064558994" expanded="true" signature="1666:1709" placeholder="SELECT missi... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="2338:2369" placeholder="DROP TABLE I... " />
+            <marker date="1460064558994" expanded="true" signature="2420:2451" placeholder="DROP TABLE I... " />
+            <marker date="1460064558994" expanded="true" signature="3355:3397" placeholder="SELECT missi... missing_value" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint_connector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
@@ -836,7 +978,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/recording/radio_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
@@ -846,190 +988,215 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docker-compose.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint/config.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint/config_tiny.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test_audio_file_query.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test_dynamodb.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/recording/test_recorder.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/8ffc8acf/a3554da5-33fe-4b6d-bac0-321aee4524ed/postgres.public.songs" />
+    <entry file="dbDummy://dbtable:/8ffc8acf/a3554da5-33fe-4b6d-bac0-321aee4524ed/postgres.public.fingerprints" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="54" column="6" selection-start-line="54" selection-start-column="6" selection-end-line="54" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/8ffc8acf/d7e777ce-2d14-4076-b696-bc34e198a893/hashes.public.fingerprints" />
+    <entry file="dbDummy://dbtable:/8ffc8acf/d7e777ce-2d14-4076-b696-bc34e198a893/hashes.public.songs" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/a0afd6ac-b4d5-4f96-a2d4-3fbb1e1df35a/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2016.1/system/python_stubs/-938108334/posix.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="800" column="4" selection-start-line="800" selection-start-column="4" selection-end-line="800" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/postgres_rows.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1458929986000" expanded="true" signature="352:428" placeholder="SELECT reltu... pg_class" />
+            <marker date="1458929986000" expanded="true" signature="753:798" placeholder="SELECT missi... missing_value" />
+            <marker date="1458929986000" expanded="true" signature="882:928" placeholder="SELECT missi... missing_value" />
+            <marker date="1458929986000" expanded="true" signature="1073:1118" placeholder="SELECT missi... missing_value" />
+            <marker date="1458929986000" expanded="true" signature="1204:1230" placeholder="SELECT * FRO... missing_value" />
+            <marker date="1458929986000" expanded="true" signature="1312:1358" placeholder="SELECT missi... missing_value" />
+            <marker date="1458929986000" expanded="true" signature="1444:1470" placeholder="SELECT * FRO... missing_value" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/4155e4c0/a0afd6ac-b4d5-4f96-a2d4-3fbb1e1df35a/hashes.public.fingerprints">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/4155e4c0/a0afd6ac-b4d5-4f96-a2d4-3fbb1e1df35a/hashes.public.songs">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint/hash_table.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="58.172413">
-          <caret line="49" column="28" selection-start-line="49" selection-start-column="17" selection-end-line="49" selection-end-column="28" />
+        <state relative-caret-position="218">
+          <caret line="260" column="79" selection-start-line="260" selection-start-column="79" selection-end-line="260" selection-end-column="79" />
+          <folding>
+            <element signature="e#169#206#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/audfprint/audfprint_analyze.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5025">
+          <caret line="338" column="27" selection-start-line="338" selection-start-column="27" selection-end-line="338" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/recording/radiorec.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="10" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/8ffc8acf/a3554da5-33fe-4b6d-bac0-321aee4524ed/postgres.public.songs">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="-95">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/audfprint/audfprint_match.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="268" column="42" selection-start-line="268" selection-start-column="42" selection-end-line="268" selection-end-column="42" />
+        <state relative-caret-position="445">
+          <caret line="420" column="38" selection-start-line="420" selection-start-column="38" selection-end-line="420" selection-end-column="38" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/8ffc8acf/a3554da5-33fe-4b6d-bac0-321aee4524ed/postgres.public.fingerprints">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="55" selection-start-line="12" selection-start-column="55" selection-end-line="12" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/audfprint/postgres_db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-            <marker date="1459629369381" expanded="true" signature="602:742" placeholder="CREATE TABLE... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="875:993" placeholder="CREATE TABLE... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="1081:1113" placeholder="SELECT missi... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="1274:1436" placeholder="INSERT INTO missing_value... " />
-            <marker date="1459629369381" expanded="true" signature="1570:1602" placeholder="INSERT INTO missing_value... " />
-            <marker date="1459629369381" expanded="true" signature="1667:1710" placeholder="SELECT missi... missing_value" />
-            <marker date="1459629369381" expanded="true" signature="2339:2370" placeholder="DROP TABLE I... " />
-            <marker date="1459629369381" expanded="true" signature="2421:2452" placeholder="DROP TABLE I... " />
-            <marker date="1459629369381" expanded="true" signature="3367:3409" placeholder="SELECT missi... missing_value" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="62" column="33" selection-start-line="62" selection-start-column="33" selection-end-line="62" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/recording/radio_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
+        <state relative-caret-position="315">
+          <caret line="21" column="14" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="14" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/audfprint/audfprint.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="27" column="7" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="159" column="39" selection-start-line="159" selection-start-column="39" selection-end-line="159" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_db.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/audfprint_connector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="52" selection-start-line="57" selection-start-column="52" selection-end-line="57" selection-end-column="52" />
+        <state relative-caret-position="180">
+          <caret line="60" column="23" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/audfprint/postgres_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.83653843">
-          <caret line="54" column="6" selection-start-line="54" selection-start-column="6" selection-end-line="54" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/8ffc8acf/d7e777ce-2d14-4076-b696-bc34e198a893/hashes.public.fingerprints">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://dbtable:/8ffc8acf/d7e777ce-2d14-4076-b696-bc34e198a893/hashes.public.songs">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/audfprint/audfprint_analyze.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35172415">
-          <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
-          <folding />
+        <state relative-caret-position="180">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <marker date="1460064558994" expanded="true" signature="601:741" placeholder="CREATE TABLE... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="874:992" placeholder="CREATE TABLE... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="1080:1112" placeholder="SELECT missi... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="1273:1435" placeholder="INSERT INTO missing_value... " />
+            <marker date="1460064558994" expanded="true" signature="1569:1601" placeholder="INSERT INTO missing_value... " />
+            <marker date="1460064558994" expanded="true" signature="1666:1709" placeholder="SELECT missi... missing_value" />
+            <marker date="1460064558994" expanded="true" signature="2338:2369" placeholder="DROP TABLE I... " />
+            <marker date="1460064558994" expanded="true" signature="2420:2451" placeholder="DROP TABLE I... " />
+            <marker date="1460064558994" expanded="true" signature="3355:3397" placeholder="SELECT missi... missing_value" />
+          </folding>
         </state>
       </provider>
     </entry>

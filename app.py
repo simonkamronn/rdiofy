@@ -7,11 +7,11 @@ from recording import radiorec
 import boto3
 import time
 from multiprocessing import Process, Queue
-from Queue import Empty
+from queue import Empty
 from audfprint.audio_read import buf_to_float
 import numpy as np
-import wave
-import contextlib
+# import wave
+# import contextlib
 import hashlib
 import json
 from gevent.pywsgi import WSGIServer
@@ -47,7 +47,7 @@ def consumer(task_queue, result_queue):
 
             matches = afp.match_file(tmp_file)
             for station in matches.keys():
-                n_total_hashes = np.sum(matches[station]['hashes'])
+                n_total_hashes = sum(matches[station]['hashes'])
                 if n_total_hashes > max_hashes:
                     max_hashes = n_total_hashes
                     match_station = station
@@ -143,7 +143,7 @@ def station_match():
     # Commit match to database
     if hash_count > 4:
         # Generate unique id
-        id = hashlib.md5(user_id + station + match_time).hexdigest()
+        id = hashlib.md5(user_id.encode('utf8') + station.encode('utf8') + match_time.encode('utf8')).hexdigest()
     
         table.put_item(Item=dict(id=id,
                                  station=station,
@@ -214,6 +214,8 @@ if __name__ == '__main__':
          'url': 'http://live-icy.gss.dr.dk/A/A21H.mp3'},
         {'name': 'P8',
          'url': 'http://live-icy.gss.dr.dk/A/A22H.mp3'}]
+
+    radio_stations = []
 
     # Define queues
     task_queue = Queue()

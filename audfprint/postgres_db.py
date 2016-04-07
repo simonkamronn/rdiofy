@@ -1,6 +1,6 @@
 from __future__ import print_function
 from postgres import Postgres
-from itertools import izip_longest
+from itertools import zip_longest
 import os
 import numpy as np
 
@@ -60,8 +60,8 @@ class PostgreSQLDB(object):
         if os.environ.get('DOCKERCLOUD_SERVICE_HOSTNAME', None) is not None:
             self.db = Postgres(u"postgres://postgres:pervasivesounds@postgres/hashes")
         else:
-            self.db = Postgres(u"postgres://postgres:atiG0lddng@localhost/postgres")
-            # self.db = Postgres(u"postgres://postgres:pervasivesounds@52.49.153.98/hashes")
+            # self.db = Postgres(u"postgres://postgres:atiG0lddng@localhost/postgres")
+            self.db = Postgres(u"postgres://postgres:pervasivesounds@52.49.153.98/hashes")
 
         if drop_tables:
             self.db.run("DROP TABLE IF EXISTS %s CASCADE" % self.SONGS_TABLENAME)
@@ -80,10 +80,10 @@ class PostgreSQLDB(object):
     def insert_hashes(self, sid, hashes):
         values = []
         for time_, hash_ in hashes:
-            values.append((hash_.astype('int'), sid, time_))
+            values.append((int(hash_), sid, time_))
 
         with self.db.get_cursor() as cur:
-            for split_values in grouper(values, 1000):
+            for split_values in batch(values, 1000):
                 cur.executemany(self.INSERT_FINGERPRINT, split_values)
 
     def insert_song(self, songname):
@@ -98,23 +98,24 @@ class PostgreSQLDB(object):
         """
         Returns song by its ID.
         """
-        return self.db.one(self.SELECT_SONG, (sid,))
+        return self.db.one(self.SELECT_SONG, (int(sid),))
 
     def return_matches(self, hashes):
         mapper = {}
         for offset, hash in hashes:
-            mapper[hash] = offset
+            mapper[int(hash)] = offset
 
         # Get an iteratable of all the hashes we need
-        values = mapper.keys()
+        values = list(mapper.keys())
 
+        res = []
         if hashes is not None:
-            for split_values in grouper(values, 1000):
+            for split_values in batch(values, 100):
                 query = self.SELECT_MULTIPLE
                 query %= ', '.join(["%s"] * len(split_values))
 
-                res = self.db.all(query, split_values, back_as=tuple)
-                return np.asarray([(sid, offset - mapper[hash]) for (hash, sid, offset) in res])
+                [res.append(r) for r in self.db.all(query, split_values, back_as=tuple)]
+            return np.asarray([(sid, offset - mapper[hash]) for (hash, sid, offset) in res])
 
     def get_best_sids(self, matches):
         unique, counts = np.unique(matches[:, 0], return_counts=True)
@@ -163,6 +164,8 @@ class PostgreSQLDB(object):
                     })
         return songs
 
-def grouper(iterable, n, fillvalue=None):
-    args = [iter(iterable)] * n
-    return (filter(None, values) for values in izip_longest(fillvalue=fillvalue, *args))
+
+def batch(iterable, n=1):
+    l = len(iterable)
+    for ndx in range(0, l, n):
+        yield iterable[ndx:min(ndx + n, l)]

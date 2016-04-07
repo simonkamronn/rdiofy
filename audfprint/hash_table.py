@@ -10,7 +10,7 @@ from __future__ import print_function
 
 import numpy as np
 import random
-import cPickle as pickle
+import pickle as pickle
 import os, gzip
 import scipy.io
 import math
@@ -162,7 +162,7 @@ class HashTable(object):
         nhits = 0
         maxtimemask = (1 << self.maxtimebits) - 1
         # Fill in
-        for ix in xrange(nhashes):
+        for ix in range(nhashes):
             time_ = hashes[ix][0]
             hash_ = hashes[ix][1]
             nids = min(self.depth, self.counts[hash_])
@@ -258,7 +258,7 @@ class HashTable(object):
         self.counts = mht['HashTableCounts'][0]
         self.names = [str(val[0]) if len(val) > 0 else []
                       for val in mht['HashTableNames'][0]]
-        self.hashesperid = np.array(mht['HashTableLengths'][0]).astype(uint32)
+        self.hashesperid = np.array(mht['HashTableLengths'][0]).astype(np.int32)
         # Matlab uses 1-origin for the IDs in the hashes, so rather than
         # rewrite them all, we shift the corresponding decode tables
         # down one cell

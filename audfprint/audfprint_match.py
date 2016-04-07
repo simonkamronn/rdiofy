@@ -12,7 +12,7 @@ import time
 # for checking phys mem size
 # import resource # not working in windows
 # for localtest and illustrate
-import audfprint_analyze
+from . import audfprint_analyze
 # import matplotlib
 # matplotlib.use('Agg')
 # import matplotlib.pyplot as plt
@@ -22,8 +22,7 @@ import audfprint_analyze
 
 def log(message):
     """ log info with stats """
-    print time.ctime(), \
-        message
+    print(time.ctime(), message)
 #        "physmem=", resource.getrusage(resource.RUSAGE_SELF).ru_maxrss, \
 #        "utime=", resource.getrusage(resource.RUSAGE_SELF).ru_utime
 
@@ -307,9 +306,9 @@ class Matcher(object):
                 numberstring = "#%d"%number
             else:
                 numberstring = ""
-            print time.ctime(), "Analyzed", numberstring, filename, "of", \
+            print(time.ctime(), "Analyzed", numberstring, filename, "of", \
                   ('%.3f'%durd), "s " \
-                  "to", len(q_hashes), "hashes"
+                  "to", len(q_hashes), "hashes")
         # Run query
         rslts = self.match_hashes(ht, q_hashes)
         # Post filtering
@@ -416,10 +415,10 @@ def localtest():
     rslts, dur, nhash = matcher.match_file(audfprint_analyze.g2h_analyzer,
                                            hash_tab, qry)
     t_hop = 0.02322
-    print "Matched", qry, "(", dur, "s,", nhash, "hashes)", \
+    print("Matched", qry, "(", dur, "s,", nhash, "hashes)", \
           "as", hash_tab.names[rslts[0][0]], \
           "at", t_hop*float(rslts[0][2]), "with", rslts[0][1], \
-          "of", rslts[0][3], "hashes"
+          "of", rslts[0][3], "hashes")
 
 # Run the main function if called from the command line
 if __name__ == "__main__":

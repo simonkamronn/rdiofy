@@ -48,12 +48,6 @@ class RadioRecorder:
         # Ingest file in database
         nhash = ingest(filename, self.station)
 
-        try:
-            os.remove(filename)
-        except WindowsError:
-            print("Can't delete file: %s" % filename)
-        except IOError, e:
-            print(e)
 
     def record_stream(self, ingest, logger):
         logger("Starting recording of %s" % self.station)
@@ -64,15 +58,6 @@ class RadioRecorder:
 
         logger("Stopping recording of %s" % self.station)
         self.recording = False
-
-    def remove_files(self):
-        for mp3_file in glob.glob(self.target_dir + '/*.mp3')[:-2]:
-            try:
-                os.remove(mp3_file)
-            except WindowsError:
-                print("Can't delete file: %s" % mp3_file)
-            except IOError, e:
-                print(e)
 
 
 def m3u_to_url(url):
