@@ -58,7 +58,9 @@ class PostgreSQLDB(object):
     def __init__(self, drop_tables=False):
         super(PostgreSQLDB, self).__init__()
         if os.environ.get('DOCKERCLOUD_SERVICE_HOSTNAME', None) is not None:
-            self.db = Postgres(u"postgres://postgres:pervasivesounds@postgres/hashes")
+            self.db = Postgres(u"postgres://postgres:pervasivesounds@52.49.153.98/hashes")
+
+            # self.db = Postgres(u"postgres://postgres:pervasivesounds@postgres/hashes")
         else:
             # self.db = Postgres(u"postgres://postgres:atiG0lddng@localhost/postgres")
             self.db = Postgres(u"postgres://postgres:pervasivesounds@52.49.153.98/hashes")

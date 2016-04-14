@@ -7,7 +7,6 @@ from recording import radiorec
 import boto3
 import time
 from multiprocessing import Process, Queue
-from queue import Empty
 from audfprint.audio_read import buf_to_float
 import numpy as np
 # import wave
@@ -15,6 +14,12 @@ import numpy as np
 import hashlib
 import json
 from gevent.pywsgi import WSGIServer
+
+# Python 2.7 compatibility
+try:
+    from Queue import Empty
+except:
+    from queue import Empty
 
 dt_format = '%Y-%m-%d %H:%M:%S'
 logging.basicConfig()
@@ -158,16 +163,7 @@ def station_match():
                             'match_time': match_time, 
                             'hash_count': hash_count, 
                             'id': id}) 
-    return ('', 204)
-
-
-def reset_hashtable(connector):
-    # TODO reset only last half of the table
-    connector.hash_tab.reset()
-
-
-def list_hashtable(connector):
-    connector.hash_tab.list(app.logger.info)
+    return '', 204
 
 
 @app.route('/answer/', methods=['POST'])
@@ -214,8 +210,6 @@ if __name__ == '__main__':
          'url': 'http://live-icy.gss.dr.dk/A/A21H.mp3'},
         {'name': 'P8',
          'url': 'http://live-icy.gss.dr.dk/A/A22H.mp3'}]
-
-    radio_stations = []
 
     # Define queues
     task_queue = Queue()
