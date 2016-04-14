@@ -130,7 +130,7 @@ def station_match():
 
     # Save file to disk
     # TODO load file directly instead of saving to disk
-    tmp_file = 'tmp_audio' + '.' + file_type
+    tmp_file = '/tmp/tmp_audio' + '.' + file_type
     try:
         request.files.get('audio_file').save(tmp_file)
     except AttributeError:
