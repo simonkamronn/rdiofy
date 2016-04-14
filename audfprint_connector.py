@@ -42,7 +42,7 @@ class Connector(object):
             self.hash_tab = self.new_hashtable()
             print("Using Numpy hashtable")
         else:
-            self.db = PostgreSQLDB(drop_tables=False)
+            self.db = PostgreSQLDB(drop_tables=True)
             print("Using PostgreSQL database")
 
     def match_file(self, audio_file):

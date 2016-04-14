@@ -27,6 +27,7 @@ from . import hash_table
 # Access to match functions, used in command line interface
 from . import audfprint_match
 
+
 def filename_list_iterator(filelist, wavdir, wavext, listflag):
     """ Iterator to yeild all the filenames, possibly interpreting them
         as list files, prepending wavdir """
