@@ -13,13 +13,9 @@ import numpy as np
 # import contextlib
 import hashlib
 import json
+import gevent
 from gevent.pywsgi import WSGIServer
-
-# Python 2.7 compatibility
-try:
-    from Queue import Empty
-except:
-    from queue import Empty
+from gevent.queue import Queue, Empty
 
 dt_format = '%Y-%m-%d %H:%M:%S'
 logging.basicConfig()
@@ -50,7 +46,11 @@ def consumer(task_queue, result_queue):
             max_hashes = 0
             match_station = match_time = None
 
+            app.logger.info("Received match request")
+            now = time.time()
             matches = afp.match_file(tmp_file)
+            app.logger.info("Time retrieving matches: %f" % (time.time() - now))
+
             for station in matches.keys():
                 n_total_hashes = sum(matches[station]['hashes'])
                 if n_total_hashes > max_hashes:
@@ -83,6 +83,7 @@ def consumer(task_queue, result_queue):
                 ), dtype=np.float32)
 
             # Ingest into table
+            app.logger.info("Ingesting %s" % (station + '.' + cur_dt))
             afp.ingest_array(array, station + '.' + cur_dt)
 
 
@@ -118,7 +119,7 @@ def keep_recording(queue, stations):
                 recording_processes[n] = (p, radio_station)
                 
             # Wait a bit before retrying
-            time.sleep(10)
+            gevent.sleep(1)
                 
 
 @app.route('/match/', methods=['POST'])
@@ -211,6 +212,8 @@ if __name__ == '__main__':
         {'name': 'P8',
          'url': 'http://live-icy.gss.dr.dk/A/A22H.mp3'}]
 
+    # radio_stations = []
+
     # Define queues
     task_queue = Queue()
     result_queue = Queue()
@@ -228,3 +231,4 @@ if __name__ == '__main__':
 
     http_server = WSGIServer(('', 5000), app)
     http_server.serve_forever()
+
