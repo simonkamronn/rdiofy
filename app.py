@@ -89,6 +89,7 @@ def consumer(task_queue, result_queue):
             # Ingest into table
             app.logger.info("Ingesting %s" % (station + '.' + cur_dt))
             afp.ingest_array(array, station + '.' + cur_dt)
+            app.logger.info("Ingested")
 
 
 def keep_recording(queue, stations):
@@ -97,27 +98,33 @@ def keep_recording(queue, stations):
     recording_processes = dict()
     # Define producer processes
     for n, radio_station in enumerate(stations):
-        recording_processes[n] = (gevent.spawn(radiorec.record_stream, radio_station, queue), radio_station)
-
+        recording_processes[n] = (Process(target=radiorec.record_stream,
+                                          args=(radio_station, queue),
+                                          name=radio_station.get('name', '')),
+                                  radio_station)
     # Run processes
-    for n, (p, radio_station) in recording_processes.items():
-        if p:
-            app.logger.info("Started recording: %s" % radio_station['name'])
+    for n in recording_processes.keys():
+        (p, radio_station) = recording_processes[n]
+        app.logger.info("Starting recording: %s" % p.name)
+        p.start()
 
     while True:
         # If they shut down, restart
-        for n, (p, radio_station) in recording_processes.items():
-            if not p:
-                app.logger.info("Restarting recording: %s" % radio_station['name'])
-                p.join()  # Tidy up?
+        for n in recording_processes.keys():
+            (p, radio_station) = recording_processes[n]
+            if not p.is_alive():
+                app.logger.info("Restarting recording: %s" % p.name)
+                p.join(1)  # Tidy up?
                 del recording_processes[n]  # Delete from dict
-
-                # Define and start new process
-                p = gevent.spawn(radiorec.record_stream, radio_station, queue)
+                # Define new process
+                p = Process(target=radiorec.record_stream,
+                            args=(radio_station, queue),
+                            name=radio_station.get('name', ''))
+                p.start()
                 recording_processes[n] = (p, radio_station)
-                
+
             # Wait a bit before retrying
-            gevent.sleep(1)
+            time.sleep(1)
                 
 
 @app.route('/match/', methods=['POST'])
@@ -217,12 +224,12 @@ if __name__ == '__main__':
     result_queue = Queue()
 
     # Define a producer queue/process
-    producer_process = gevent.spawn(keep_recording, task_queue, radio_stations)
-    # producer_process.start()
+    producer_process = Process(target=keep_recording, args=(task_queue, radio_stations), name='producer')
+    producer_process.start()
 
     # Define consumer process
-    audfprint_process = gevent.spawn(consumer, task_queue, result_queue)
-    # audfprint_process.start()
+    consumer_process = Process(target=consumer, args=(task_queue, result_queue), name='consumer')
+    consumer_process.start()
 
     # Dev server
     # app.run(host='0.0.0.0', port=5000, use_reloader=False)
@@ -231,6 +238,6 @@ if __name__ == '__main__':
     http_server.serve_forever()
 
     try:
-        gevent.joinall([producer_process, audfprint_process])
+        [p.join(1) for p in [producer_process, consumer_process]]
     except KeyboardInterrupt:
         print('Exiting')
