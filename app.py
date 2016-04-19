@@ -39,7 +39,7 @@ def consumer(task_queue, result_queue):
     app.logger.info("Consumer started")
     
     while True:
-        task, data = task_queue.get()  # Blocking
+        task, data = task_queue.get(block=True)  # Blocking
 
         if 'match' in task:
             tmp_file = data
