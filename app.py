@@ -1,3 +1,6 @@
+from gevent.monkey import patch_all
+patch_all()
+
 from flask import Flask, request
 from audfprint_connector import Connector
 from datetime import datetime
@@ -37,6 +40,7 @@ app.logger.setLevel(logging.INFO)  # use the native logger in flask
 def consumer(task_queue, result_queue):
     # Create connector to audfprint
     afp = Connector()
+    app.logger.info("Consumer started")
     
     while True:
         task, data = task_queue.get()  # Blocking
@@ -93,29 +97,23 @@ def keep_recording(queue, stations):
     recording_processes = dict()
     # Define producer processes
     for n, radio_station in enumerate(stations):
-        recording_processes[n] = (Process(target=radiorec.record_stream,
-                                          args=(radio_station, queue),
-                                          name=radio_station.get('name', '')), 
-                                  radio_station)
+        recording_processes[n] = (gevent.spawn(radiorec.record_stream, radio_station, queue), radio_station)
+
     # Run processes
-    for n in recording_processes:
-        (p, radio_station) = recording_processes[n]
-        app.logger.info("Starting recording: %s" % p.name)
-        p.start()
+    for n, (p, radio_station) in recording_processes.items():
+        if p:
+            app.logger.info("Started recording: %s" % radio_station['name'])
 
     while True:
         # If they shut down, restart
-        for n in recording_processes:
-            (p, radio_station) = recording_processes[n]
-            if not p.is_alive():
-                app.logger.info("Restarting recording: %s" % p.name)
+        for n, (p, radio_station) in recording_processes.items():
+            if not p:
+                app.logger.info("Restarting recording: %s" % radio_station['name'])
                 p.join()  # Tidy up?
                 del recording_processes[n]  # Delete from dict
-                # Define new process
-                p = Process(target=radiorec.record_stream,
-                            args=(radio_station, queue),
-                            name=radio_station.get('name', ''))
-                p.start()
+
+                # Define and start new process
+                p = gevent.spawn(radiorec.record_stream, radio_station, queue)
                 recording_processes[n] = (p, radio_station)
                 
             # Wait a bit before retrying
@@ -219,12 +217,12 @@ if __name__ == '__main__':
     result_queue = Queue()
 
     # Define a producer queue/process
-    producer_process = Process(target=keep_recording, args=(task_queue, radio_stations))
-    producer_process.start()
+    producer_process = gevent.spawn(keep_recording, task_queue, radio_stations)
+    # producer_process.start()
 
     # Define consumer process
-    audfprint_process = Process(target=consumer, args=(task_queue, result_queue))
-    audfprint_process.start()
+    audfprint_process = gevent.spawn(consumer, task_queue, result_queue)
+    # audfprint_process.start()
 
     # Dev server
     # app.run(host='0.0.0.0', port=5000, use_reloader=False)
@@ -232,3 +230,7 @@ if __name__ == '__main__':
     http_server = WSGIServer(('', 5000), app)
     http_server.serve_forever()
 
+    try:
+        gevent.joinall([producer_process, audfprint_process])
+    except KeyboardInterrupt:
+        print('Exiting')

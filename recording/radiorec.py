@@ -1,6 +1,5 @@
 import datetime
 import os
-import glob
 import requests
 from contextlib import closing
 from audfprint.audio_read import FFmpegAudioFile
@@ -8,7 +7,7 @@ import numpy as np
 SAMPLE_RATE = 8000
 CHUNK_SIZE = 1024
 
-ARGS = {'url': 'http://live-icy.gss.dr.dk/A/A05H.mp3',  # DR P3
+ARGS = {'url': 'http://live-icy.gss.dr.dk/A/A03H.mp3',  # DR P3
         'duration': 40,  # Seconds
         'station': 'DR P3',
         'name': None,
@@ -85,6 +84,7 @@ def record_stream(radio_station, queue):
             y.append(buf)
 
             if idx > 100:
+                print('ingest %s to queue' % station)
                 queue.put(('ingest', (y, station)))
                 y = []
                 idx = 0
