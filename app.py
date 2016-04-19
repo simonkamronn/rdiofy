@@ -1,6 +1,3 @@
-from gevent.monkey import patch_all
-patch_all()
-
 from flask import Flask, request
 from audfprint_connector import Connector
 from datetime import datetime
@@ -10,15 +7,14 @@ from recording import radiorec
 import boto3
 import time
 from multiprocessing import Process, Queue
+from queue import Empty
 from audfprint.audio_read import buf_to_float
 import numpy as np
 # import wave
 # import contextlib
 import hashlib
 import json
-import gevent
 from gevent.pywsgi import WSGIServer
-from gevent.queue import Queue, Empty
 
 dt_format = '%Y-%m-%d %H:%M:%S'
 logging.basicConfig()
